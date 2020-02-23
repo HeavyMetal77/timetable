@@ -53,6 +53,20 @@ CREATE TABLE `day_of_week`
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = latin1;
 
+DROP TABLE IF EXISTS `subject_int_map`;
+
+CREATE TABLE `subject_int_map`
+(
+    `id`             int(11) NOT NULL AUTO_INCREMENT,
+    `school_class_id`     int(11) DEFAULT NULL,
+    `subject_id`     int(11) DEFAULT NULL,
+    `value`          int(11) DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`school_class_id`) REFERENCES `school_class` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = latin1;
+
 DROP TABLE IF EXISTS `lesson`;
 
 CREATE TABLE `lesson`
@@ -103,6 +117,13 @@ VALUES (1, 'mathematical', 1),
        (3, 'chemical', 1),
        (4, 'mathematical', 2),
        (5, 'history', 1);
+
+INSERT INTO `subject_int_map`
+VALUES (1, 1, 1, 10),
+       (2, 2, 2, 5),
+       (3, 3, 3, 8),
+       (4, 4, 4, 15),
+       (5, 5, 5, 2);
 
 INSERT INTO `class_room`
 VALUES (1, 'mathematical_classroom'),

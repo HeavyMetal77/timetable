@@ -22,15 +22,20 @@ public class SchoolClass {
             cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private List<Subject> subjects;
 
-//    @Type( type = "SerializableType")
-//    private Map<Subject, Integer> subjectIntegerMap;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="schoolClass",
+            cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    private List<SubjectIntMap> subjectIntMap;
+
 
     public SchoolClass() {
     }
 
-    public SchoolClass(String nameClass) {
+    public SchoolClass(int id, String nameClass, List<Lesson> lessons, List<Subject> subjects, List<SubjectIntMap> subjectIntMap) {
+        this.id = id;
         this.nameClass = nameClass;
-//        this.subjectIntegerMap = subjectIntegerMap;
+        this.lessons = lessons;
+        this.subjects = subjects;
+        this.subjectIntMap = subjectIntMap;
     }
 
     public String getNameClass() {
@@ -40,29 +45,6 @@ public class SchoolClass {
     public void setNameClass(String nameClass) {
         this.nameClass = nameClass;
     }
-
-//    public Map<Subject, Integer> getSubjectIntegerMap() {
-//        return subjectIntegerMap;
-//    }
-//
-//    public void setSubjectIntegerMap(Map<Subject, Integer> subjectIntegerMap) {
-//        this.subjectIntegerMap = subjectIntegerMap;
-//    }
-//
-//    public int getHoursForSubject(Subject subject) {
-//        int result = -1;
-//        for (Map.Entry<Subject, Integer> entry : subjectIntegerMap.entrySet()) {
-//            if (subject.equals(entry.getKey())) {
-//                result = entry.getValue();
-//            }
-//        }
-//        return result;
-//    }
-//
-//    public void putSubjectInteger(Subject subject, Integer value) {
-//        subjectIntegerMap.put(subject, value);
-//    }
-
 
     public int getId() {
         return id;
@@ -86,6 +68,14 @@ public class SchoolClass {
 
     public void setSubjects(List<Subject> subjects) {
         this.subjects = subjects;
+    }
+
+    public List<SubjectIntMap> getSubjectIntMap() {
+        return subjectIntMap;
+    }
+
+    public void setSubjectIntMap(List<SubjectIntMap> subjectIntMap) {
+        this.subjectIntMap = subjectIntMap;
     }
 
     @Override
