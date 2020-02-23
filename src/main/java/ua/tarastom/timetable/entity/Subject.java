@@ -20,9 +20,10 @@ public class Subject {
     public Subject() {
     }
 
-    public Subject(SchoolClass schoolClass, String subject) {
+    public Subject(int id, String nameSubject, SchoolClass schoolClass) {
+        this.id = id;
         this.schoolClass = schoolClass;
-        this.nameSubject = subject;
+        this.nameSubject = nameSubject;
     }
 
     public SchoolClass getSchoolClass() {

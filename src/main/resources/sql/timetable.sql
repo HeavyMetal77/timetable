@@ -44,18 +44,28 @@ CREATE TABLE `class_room`
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = latin1;
 
+DROP TABLE IF EXISTS `day_of_week`;
+
+CREATE TABLE `day_of_week`
+(
+    `id`             int(11) NOT NULL AUTO_INCREMENT,
+    `day_week`      varchar(45) DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = latin1;
+
 DROP TABLE IF EXISTS `lesson`;
 
 CREATE TABLE `lesson`
 (
     `id`              int(11) NOT NULL AUTO_INCREMENT,
     `number_lesson`   int(11)     DEFAULT NULL,
-    `date_time`       varchar(45) DEFAULT NULL,
+    `day_week_id`     int(11)     DEFAULT NULL,
     `subject_id`      int(11)     DEFAULT NULL,
     `school_class_id` int(11)     DEFAULT NULL,
     `teacher_id`      int(11)     DEFAULT NULL,
     `classroom_id`    int(11)     DEFAULT NULL,
     PRIMARY KEY (`id`),
+    FOREIGN KEY (`day_week_id`) REFERENCES `day_of_week` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
     FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
     FOREIGN KEY (`school_class_id`) REFERENCES `school_class` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
     FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
@@ -63,6 +73,15 @@ CREATE TABLE `lesson`
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = latin1;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+INSERT INTO `day_of_week`
+VALUES (1, 'MONDAY'),
+       (2, 'TUESDAY'),
+       (3, 'WEDNESDAY'),
+       (4, 'THURSDAY'),
+       (5, 'FRIDAY'),
+       (6, 'SATURDAY'),
+       (7, 'SUNDAY');
 
 INSERT INTO `teacher`
 VALUES (1, 'Ivan', 'Olexandrovich', 'Ivanov', 'ivanov@ukr.net'),
@@ -93,11 +112,11 @@ VALUES (1, 'mathematical_classroom'),
        (5, 'biology_classroom');
 
 INSERT INTO `lesson`
-VALUES (1, 1, '15-02-2020', 1, 1, 1, 1),
-       (2, 2, '16-02-2020', 2, 2, 2, 1),
-       (3, 4, '15-02-2020', 3, 3, 3, 1),
-       (4, 3, '16-02-2020', 4, 4, 4, 1),
-       (5, 5, '16-02-2020', 5, 5, 5, 1);
+VALUES (1, 1, 1, 1, 1, 1, 1),
+       (2, 2, 2, 2, 2, 2, 1),
+       (3, 4, 3, 3, 3, 3, 1),
+       (4, 3, 4, 4, 2, 2, 1),
+       (5, 5, 5, 5, 5, 5, 1);
 
 
 

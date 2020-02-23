@@ -1,8 +1,6 @@
 package ua.tarastom.timetable.entity;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.time.Month;
 
 @Entity
 @Table(name = "lesson")
@@ -15,8 +13,9 @@ public class Lesson {
     @Column(name = "number_lesson")
     private int numberLesson;
 
-    @Column(name ="date_time")
-    private String dateTime;
+    @OneToOne(cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name ="day_week_id")
+    private DayOfWeekUtil dayOfWeek;
 
     @ManyToOne(cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name ="subject_id")
@@ -38,21 +37,14 @@ public class Lesson {
 
     }
 
-    public Lesson(int id, int numberLesson, String dateTime, Subject subject, SchoolClass schoolClass, Teacher teacher, Classroom classroom) {
+    public Lesson(int id, int numberLesson, DayOfWeekUtil dayOfWeek, Subject subject, SchoolClass schoolClass, Teacher teacher, Classroom classroom) {
         this.id = id;
         this.numberLesson = numberLesson;
-        this.dateTime = dateTime;
+        this.dayOfWeek = dayOfWeek;
         this.subject = subject;
         this.schoolClass = schoolClass;
         this.teacher = teacher;
         this.classroom = classroom;
-    }
-
-    public Lesson(Subject subject, Teacher teacher, SchoolClass schoolClass) {
-        this.subject = subject;
-        this.schoolClass = schoolClass;
-        this.teacher = teacher;
-        dateTime = (LocalDateTime.of(2020, Month.JANUARY, 30, 15, 0, 0)).toString();
     }
 
     public Subject getSubject() {
@@ -95,13 +87,6 @@ public class Lesson {
         this.id = id;
     }
 
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    public String getDateTime() {
-        return dateTime;
-    }
 
     public Classroom getClassroom() {
         return classroom;
@@ -111,13 +96,21 @@ public class Lesson {
         this.classroom = classroom;
     }
 
+    public DayOfWeekUtil getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(DayOfWeekUtil dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
     @Override
     public String toString() {
         return "Lesson{" +
-                "numberLesson=" + numberLesson +
-                ", dateTime=" + dateTime +
-                ", subject=" + subject +
-                ", schoolClass=" + schoolClass +
+                "\nnumberLesson=" + numberLesson +
+                ", dayOfWeek=" + dayOfWeek +
+                ", \nsubject=" + subject +
+                ", \nschoolClass=" + schoolClass +
                 '}' + "\n";
     }
 }
