@@ -60,10 +60,12 @@ CREATE TABLE `subject_int_map`
     `id`             int(11) NOT NULL AUTO_INCREMENT,
     `school_class_id`     int(11) DEFAULT NULL,
     `subject_id`     int(11) DEFAULT NULL,
+    `teacher_id`     int(11) DEFAULT NULL,
     `value`          int(11) DEFAULT NULL,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`school_class_id`) REFERENCES `school_class` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-    FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+    FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = latin1;
 
@@ -119,11 +121,11 @@ VALUES (1, 'mathematical', 1),
        (5, 'history', 1);
 
 INSERT INTO `subject_int_map`
-VALUES (1, 1, 1, 10),
-       (2, 2, 2, 5),
-       (3, 3, 3, 8),
-       (4, 4, 4, 15),
-       (5, 5, 5, 2);
+VALUES (1, 1, 1, 2, 10),
+       (2, 2, 2, 3, 5),
+       (3, 3, 3, 4, 8),
+       (4, 4, 4, 1, 15),
+       (5, 5, 5, 5, 2);
 
 INSERT INTO `class_room`
 VALUES (1, 'mathematical_classroom'),
@@ -133,11 +135,11 @@ VALUES (1, 'mathematical_classroom'),
        (5, 'biology_classroom');
 
 INSERT INTO `lesson`
-VALUES (1, 1, 1, 1, 1, 1, 1),
-       (2, 2, 2, 2, 2, 2, 1),
-       (3, 4, 3, 3, 3, 3, 1),
-       (4, 3, 4, 4, 2, 2, 1),
-       (5, 5, 5, 5, 5, 5, 1);
+VALUES (5, 1, 1, 1, 1, 1, 1),
+       (3, 2, 2, 2, 2, 2, 1),
+       (4, 4, 3, 3, 3, 3, 1),
+       (2, 3, 4, 4, 2, 2, 1),
+       (1, 5, 5, 5, 5, 5, 1);
 
 
 

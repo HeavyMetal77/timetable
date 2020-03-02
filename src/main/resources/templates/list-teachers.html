@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Teachers</title>
+</head>
+<body>
+
+<br>
+<br>
+<hr>
+<h3>List teacher:</h3>
+<hr>
+<table border="1">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>First Name</th>
+            <th>Middle Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Lessons</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="tempTeacher : ${teacherList}">
+        <td th:text="${tempTeacher.id}"></td>
+        <td th:text="${tempTeacher.firstName}"></td>
+        <td th:text="${tempTeacher.middleName}"></td>
+        <td th:text="${tempTeacher.lastName}"></td>
+        <td th:text="${tempTeacher.email}"></td>
+        <td th:text="${tempTeacher.lessons}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<!--<form method="post" action="/timetable/helloPost"  modelAttribute="teacher">-->
+<!--    <table>-->
+<!--        Прізвище:<input type="text" path="lastName" placeholder="lastName"> </br>-->
+<!--        Ім'я: <input type="text" path="firstName" placeholder="firstName"> <br>-->
+<!--        По-батькові: <input type="text" path="middleName" placeholder="middleName"><br>-->
+<!--        <input type="submit" value="відправити"/>-->
+<!--    </table>-->
+
+<!--</form>-->
+</body>
+</html>

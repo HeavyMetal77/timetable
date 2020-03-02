@@ -108,7 +108,7 @@ public class Lesson {
     public String toString() {
         return "Lesson{" +
                 "\nnumberLesson=" + numberLesson +
-                ", dayOfWeek=" + dayOfWeek +
+                ", \ndayOfWeek=" + dayOfWeek +
                 ", \nsubject=" + subject +
                 ", \nschoolClass=" + schoolClass +
                 '}' + "\n";

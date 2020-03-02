@@ -3,7 +3,11 @@ package ua.tarastom.timetable.entity;
 import javax.persistence.*;
 
 /**
- * Клас зберігає поля клас, предмет та кількість годин, виділених на предмет в певному класі
+ * Клас зберігає поля
+ * клас,
+ * предмет
+ * кількість годин, виділених на предмет в певному класі
+ * id вчителя
  */
 
 @Entity
@@ -22,9 +26,12 @@ public class SubjectIntMap {
     @JoinColumn(name = "subject_id")
     private Subject subject;
 
+    @ManyToOne(cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;
+
     @Column(name = "value")
     private int value;
-
 
     public SubjectIntMap() {
     }
@@ -33,22 +40,6 @@ public class SubjectIntMap {
         this.id = id;
         this.schoolClass = schoolClass;
         this.subject = subject;
-        this.value = value;
-    }
-
-    public Subject getSubject() {
-        return subject;
-    }
-
-    public void setSubject(Subject subject) {
-        this.subject = subject;
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-    public void setValue(int value) {
         this.value = value;
     }
 
@@ -66,5 +57,40 @@ public class SubjectIntMap {
 
     public void setSchoolClass(SchoolClass schoolClass) {
         this.schoolClass = schoolClass;
+    }
+
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return "SubjectIntMap{" +
+                "id=" + id +
+                ", schoolClass=" + schoolClass.getNameClass() +
+                ", subject=" + subject.getNameSubject() +
+                ", teacher=" + teacher.getLastName() +
+                ", value=" + value +
+                '}';
     }
 }

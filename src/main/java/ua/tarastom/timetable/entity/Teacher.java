@@ -26,6 +26,10 @@ public class Teacher {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="teacher",
             cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    private List<SubjectIntMap> subjectIntMaps;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="teacher",
+            cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private List<Lesson> lessons;
 
     public Teacher() {
@@ -89,15 +93,24 @@ public class Teacher {
         this.lessons = lessons;
     }
 
+    public List<SubjectIntMap> getSubjectIntMaps() {
+        return subjectIntMaps;
+    }
+
+    public void setSubjectIntMaps(List<SubjectIntMap> subjectIntMaps) {
+        this.subjectIntMaps = subjectIntMaps;
+    }
+
     @Override
     public String toString() {
         return "Teacher{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", middleName='" + middleName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                "\n, lessons=" + lessons +
+                id +
+                ", " + firstName +
+                ", " + middleName +
+                ", " + lastName +
+                ", " + email +
+                "\n, " + lessons +
+                "\n, " + subjectIntMaps +
                 '}';
     }
 }
