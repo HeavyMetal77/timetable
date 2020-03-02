@@ -3,9 +3,8 @@ package ua.tarastom.timetable.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ua.tarastom.timetable.dao.TimeTableDAO;
 import ua.tarastom.timetable.entity.Teacher;
-import ua.tarastom.timetable.util.TimetableUtils;
+import ua.tarastom.timetable.service.TeacherService;
 
 import java.util.List;
 
@@ -13,17 +12,15 @@ import java.util.List;
 @RequestMapping("/timetable")
 public class TimetableController {
 
-    private final TimeTableDAO timeTableDAO;
-    private final TimetableUtils timetableUtils;
+    private TeacherService teacherService;
 
-    public TimetableController(TimeTableDAO timeTableDAO, TimetableUtils timetableUtils) {
-        this.timeTableDAO = timeTableDAO;
-        this.timetableUtils = timetableUtils;
+    public TimetableController(TeacherService teacherService) {
+        this.teacherService = teacherService;
     }
 
-    @RequestMapping("/")
+    @RequestMapping("/list-teachers")
     public String listTeachers(Model model) {
-        List<Teacher> teacherList = timeTableDAO.getTeacherList();
+        List<Teacher> teacherList = teacherService.getAllTeachers();
         model.addAttribute("teacherList", teacherList);
         return "list-teachers";
     }
