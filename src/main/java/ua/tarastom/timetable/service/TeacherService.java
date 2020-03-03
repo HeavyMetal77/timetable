@@ -16,4 +16,6 @@ public interface TeacherService {
 
     void deleteById(int theId);
 
+    long getCountTeachers();
+
 }

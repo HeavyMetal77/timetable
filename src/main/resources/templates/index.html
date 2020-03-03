@@ -1,1 +1,34 @@
-<meta http-equiv="refresh" content="0; url='timetable/list-teachers'">
+<!--<meta http-equiv="refresh" content="0; url='timetable/list-teachers'">-->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <!--step 1 from https://getbootstrap.com/docs/4.4/getting-started/introduction/-->
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Головна</title>
+</head>
+<body>
+
+<div class="container">
+
+    <br>
+    <hr>
+    <br>
+    Кількість вчителів в базі:
+    <td th:text="${countTeachers}"></td>
+
+    <hr>
+    <td><a th:href="@{/timetable/list-teachers}">Відкрити список вчителів</a></td>
+
+</div>
+
+</body>
+</html>

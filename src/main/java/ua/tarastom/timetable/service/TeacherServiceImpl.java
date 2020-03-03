@@ -41,4 +41,9 @@ public class TeacherServiceImpl implements TeacherService {
     public void deleteById(int theId) {
         teacherRepository.deleteById(theId);
     }
+
+    @Override
+    public long getCountTeachers() {
+        return teacherRepository.count();
+    }
 }
