@@ -32,6 +32,12 @@ public class TimetableController {
         return "teacher/add-teacher";
     }
 
+    @PostMapping("/save")
+    public String saveTeacher(@ModelAttribute ("teacher") Teacher teacher) {
+        teacherService.saveTeacher(teacher);
+        return "redirect:list-teachers";
+    }
+
     @GetMapping("/showFormForUpdateTeacher")
     public String showFormForUpdateTeacher(@RequestParam("teacherId") int teacherId, Model model) {
         Teacher theTeacher = teacherService.findTeacherById(teacherId);
@@ -39,14 +45,8 @@ public class TimetableController {
         return "teacher/add-teacher";
     }
 
-    @PostMapping("/save")
-    public String saveTeacher(@ModelAttribute ("teacher") Teacher teacher) {
-        teacherService.saveTeacher(teacher);
-        return "redirect:list-teachers";
-    }
-
     @GetMapping("/delete")
-    public String delete(@RequestParam("employeeId") int theId) {
+    public String delete(@RequestParam("teacherId") int theId) {
         teacherService.deleteById(theId);
         return "redirect:list-teachers";
     }

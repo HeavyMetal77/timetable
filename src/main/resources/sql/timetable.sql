@@ -13,7 +13,7 @@ CREATE TABLE `teacher`
     `last_name`   varchar(45) DEFAULT NULL,
     `email`       varchar(45) DEFAULT NULL,
     PRIMARY KEY (`id`)
-) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = latin1;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = UTF8;
 
 DROP TABLE IF EXISTS `subject`;
 
@@ -24,7 +24,7 @@ CREATE TABLE `subject`
     `school_class_id` int(45)     DEFAULT NULL,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`school_class_id`) REFERENCES `school_class` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = latin1;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = UTF8;
 
 DROP TABLE IF EXISTS `school_class`;
 
@@ -33,7 +33,7 @@ CREATE TABLE `school_class`
     `id`         int(11) NOT NULL AUTO_INCREMENT,
     `name_class` varchar(45) DEFAULT NULL,
     PRIMARY KEY (`id`)
-) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = latin1;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = UTF8;
 
 DROP TABLE IF EXISTS `class_room`;
 
@@ -42,7 +42,7 @@ CREATE TABLE `class_room`
     `id`             int(11) NOT NULL AUTO_INCREMENT,
     `name_classroom` varchar(45) DEFAULT NULL,
     PRIMARY KEY (`id`)
-) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = latin1;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = UTF8;
 
 DROP TABLE IF EXISTS `day_of_week`;
 
@@ -51,7 +51,7 @@ CREATE TABLE `day_of_week`
     `id`             int(11) NOT NULL AUTO_INCREMENT,
     `day_week`      varchar(45) DEFAULT NULL,
     PRIMARY KEY (`id`)
-) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = latin1;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = UTF8;
 
 DROP TABLE IF EXISTS `subject_int_map`;
 
@@ -67,7 +67,7 @@ CREATE TABLE `subject_int_map`
     FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
     FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 
-) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = latin1;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = UTF8;
 
 DROP TABLE IF EXISTS `lesson`;
 
@@ -86,7 +86,7 @@ CREATE TABLE `lesson`
     FOREIGN KEY (`school_class_id`) REFERENCES `school_class` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
     FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
     FOREIGN KEY (`classroom_id`) REFERENCES `class_room` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = latin1;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = UTF8;
 
 SET FOREIGN_KEY_CHECKS = 1;
 
