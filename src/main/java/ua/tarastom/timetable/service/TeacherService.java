@@ -12,4 +12,7 @@ public interface TeacherService {
     void saveTeacher(Teacher theTeacher);
 
     void deleteTeacher(Teacher theTeacher);
+
+    void deleteById(int theId);
+
 }

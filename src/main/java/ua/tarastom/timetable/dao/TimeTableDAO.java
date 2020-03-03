@@ -10,8 +10,6 @@ public interface TimeTableDAO {
 
     Teacher findTeacherById(int theId);
 
-    void saveTeacher(Teacher theTeacher);
-
     void deleteTeacher(Teacher theTeacher);
 
     List<Subject> getSubjectList();

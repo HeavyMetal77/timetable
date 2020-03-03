@@ -26,11 +26,6 @@ public class TimeTableDAOImpl implements TimeTableDAO {
     }
 
     @Override
-    public void saveTeacher(Teacher theTeacher) {
-        entityManager.persist(theTeacher);
-    }
-
-    @Override
     public void deleteTeacher(Teacher theTeacher) {
         entityManager.remove(theTeacher);
     }

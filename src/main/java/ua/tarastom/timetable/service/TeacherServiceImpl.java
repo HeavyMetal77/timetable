@@ -1,6 +1,7 @@
 package ua.tarastom.timetable.service;
 
 import org.springframework.stereotype.Service;
+import ua.tarastom.timetable.dao.TeacherRepository;
 import ua.tarastom.timetable.dao.TimeTableDAO;
 import ua.tarastom.timetable.entity.Teacher;
 
@@ -10,9 +11,11 @@ import java.util.List;
 public class TeacherServiceImpl implements TeacherService {
 
     private TimeTableDAO timeTableDAO;
+    private TeacherRepository teacherRepository;
 
-    public TeacherServiceImpl(TimeTableDAO timeTableDAO) {
+    public TeacherServiceImpl(TimeTableDAO timeTableDAO, TeacherRepository teacherRepository) {
         this.timeTableDAO = timeTableDAO;
+        this.teacherRepository = teacherRepository;
     }
 
     @Override
@@ -27,11 +30,16 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public void saveTeacher(Teacher theTeacher) {
-        timeTableDAO.saveTeacher(theTeacher);
+        teacherRepository.save(theTeacher);
     }
 
     @Override
     public void deleteTeacher(Teacher theTeacher) {
         timeTableDAO.deleteTeacher(theTeacher);
+    }
+
+    @Override
+    public void deleteById(int theId) {
+        teacherRepository.deleteById(theId);
     }
 }

@@ -2,7 +2,7 @@ package ua.tarastom.timetable.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ua.tarastom.timetable.entity.Teacher;
 import ua.tarastom.timetable.service.TeacherService;
 
@@ -22,6 +22,25 @@ public class TimetableController {
     public String listTeachers(Model model) {
         List<Teacher> teacherList = teacherService.getAllTeachers();
         model.addAttribute("teacherList", teacherList);
-        return "list-teachers";
+        return "teacher/list-teachers";
+    }
+
+    @RequestMapping("/showFormForAddTeacher")
+    public String showFormForAddTeacher(Model model) {
+        Teacher teacher = new Teacher();
+        model.addAttribute("teacher", teacher);
+        return "teacher/add-teacher";
+    }
+
+    @PostMapping("/save")
+    public String saveTeacher(@ModelAttribute ("teacher") Teacher teacher) {
+        teacherService.saveTeacher(teacher);
+        return "redirect:list-teachers";
+    }
+
+    @GetMapping("/delete")
+    public String delete(@RequestParam("employeeId") int theId) {
+        teacherService.deleteById(theId);
+        return "redirect:list-teachers";
     }
 }
