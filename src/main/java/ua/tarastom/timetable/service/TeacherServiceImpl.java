@@ -2,19 +2,17 @@ package ua.tarastom.timetable.service;
 
 import org.springframework.stereotype.Service;
 import ua.tarastom.timetable.dao.TeacherRepository;
-import ua.tarastom.timetable.dao.TimeTableDAO;
 import ua.tarastom.timetable.entity.Teacher;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TeacherServiceImpl implements TeacherService {
 
-    private TimeTableDAO timeTableDAO;
     private TeacherRepository teacherRepository;
 
-    public TeacherServiceImpl(TimeTableDAO timeTableDAO, TeacherRepository teacherRepository) {
-        this.timeTableDAO = timeTableDAO;
+    public TeacherServiceImpl(TeacherRepository teacherRepository) {
         this.teacherRepository = teacherRepository;
     }
 
@@ -25,7 +23,8 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Teacher findTeacherById(int theId) {
-        return timeTableDAO.findTeacherById(theId);
+        Optional<Teacher> tempTeacher = teacherRepository.findById(theId);
+        return tempTeacher.get();
     }
 
     @Override
@@ -35,7 +34,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public void deleteTeacher(Teacher theTeacher) {
-        timeTableDAO.deleteTeacher(theTeacher);
+        teacherRepository.delete(theTeacher);
     }
 
     @Override

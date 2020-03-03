@@ -24,12 +24,13 @@ public class Teacher {
     @Column(name ="email")
     private String email; //TODO реалізувати функцію відправки кожному вчителю розкладу занять на емейл
 
+    //TODO перевірити правильність каскадного видалення (всіх каскадних операцій) для пов'язаних об'єктів
     @OneToMany(fetch = FetchType.LAZY, mappedBy="teacher",
-            cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+            cascade= {CascadeType.ALL})
     private List<SubjectIntMap> subjectIntMaps;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="teacher",
-            cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+            cascade= {CascadeType.ALL})
     private List<Lesson> lessons;
 
     public Teacher() {

@@ -5,6 +5,7 @@ import ua.tarastom.timetable.entity.Teacher;
 import java.util.List;
 
 public interface TeacherService {
+
     List<Teacher> getAllTeachers();
 
     Teacher findTeacherById(int theId);
