@@ -20,7 +20,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public List<Teacher> getAllTeachers() {
-        return timeTableDAO.getTeacherList();
+        return teacherRepository.findAllByOrderByLastNameAsc();
     }
 
     @Override

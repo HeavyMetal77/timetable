@@ -14,6 +14,7 @@ public interface TeacherRepository extends JpaRepository<Teacher, Integer> {
 
     // that's it ... no need to write any code LOL!
 
-    // add a method to sort by last name
+    // add a method to sort by last name - magic JPA - not need implementation
+    // https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.query-methods.details
     List<Teacher> findAllByOrderByLastNameAsc();
 }

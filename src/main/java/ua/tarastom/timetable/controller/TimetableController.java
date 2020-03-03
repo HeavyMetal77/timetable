@@ -32,6 +32,13 @@ public class TimetableController {
         return "teacher/add-teacher";
     }
 
+    @GetMapping("/showFormForUpdateTeacher")
+    public String showFormForUpdateTeacher(@RequestParam("teacherId") int teacherId, Model model) {
+        Teacher theTeacher = teacherService.findTeacherById(teacherId);
+        model.addAttribute("teacher", theTeacher);
+        return "teacher/add-teacher";
+    }
+
     @PostMapping("/save")
     public String saveTeacher(@ModelAttribute ("teacher") Teacher teacher) {
         teacherService.saveTeacher(teacher);

@@ -16,11 +16,6 @@ public class TimeTableDAOImpl implements TimeTableDAO {
     }
 
     @Override
-    public List<Teacher> getTeacherList() {
-        return entityManager.createQuery("SELECT teacher from Teacher teacher order by teacher.id").getResultList();
-    }
-
-    @Override
     public Teacher findTeacherById(int theId) {
         return entityManager.find(Teacher.class, theId);
     }

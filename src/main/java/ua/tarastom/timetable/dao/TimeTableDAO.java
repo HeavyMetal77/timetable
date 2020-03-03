@@ -6,7 +6,6 @@ import java.util.List;
 
 public interface TimeTableDAO {
     //методи для роботи з БД
-    List<Teacher> getTeacherList();
 
     Teacher findTeacherById(int theId);
 
