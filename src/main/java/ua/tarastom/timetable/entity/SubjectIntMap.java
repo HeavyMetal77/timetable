@@ -85,12 +85,8 @@ public class SubjectIntMap {
 
     @Override
     public String toString() {
-        return "SubjectIntMap{" +
-                "id=" + id +
-                ", schoolClass=" + schoolClass.getNameClass() +
-                ", subject=" + subject.getNameSubject() +
-                ", teacher=" + teacher.getLastName() +
-                ", value=" + value +
-                '}';
+        return schoolClass.getNameClass() +
+                ", " + subject.getNameSubject() +
+                ", " + value;
     }
 }

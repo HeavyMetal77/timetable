@@ -42,27 +42,40 @@
             <th>Ім'я</th>
             <th>По-батькові</th>
             <th>Email</th>
+            <th>Предмети/клас/к-сть годин <br> викладання</th>
             <!--            <th>Уроки</th>-->
             <th>Дія</th>
         </tr>
         </thead>
 
         <tbody>
+
         <tr th:each="tempTeacher : ${teacherList}">
             <!--            <td th:text="${tempTeacher.id}"></td>-->
             <td th:text="${tempTeacher.lastName}"></td>
             <td th:text="${tempTeacher.firstName}"></td>
             <td th:text="${tempTeacher.middleName}"></td>
             <td th:text="${tempTeacher.email}"></td>
-            <!--            <td th:text="${tempTeacher.lessons}"></td>-->
+            <td>
+                <table>
+                    <tbody>
+                    <tr th:each="tempSubjectIntMap: ${tempTeacher.subjectIntMaps}">
+                        <td th:text="${tempSubjectIntMap.subject.nameSubject}"></td>
+                        <td th:text="${tempSubjectIntMap.subject.schoolClass.nameClass}"></td>
+                        <td th:text="${tempSubjectIntMap.value}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+
             <td>
                 <!-- Add update button -->
                 <a th:href="@{/timetable/showFormForUpdateTeacher(teacherId=${tempTeacher.id})}"
-                   class="btn btn-info btn-sm">Оновити дані</a>
+                   class="btn btn-info btn-sm">Оновити</a>
 
                 <!-- Add delete button -->
                 <a th:href="@{/timetable/deleteTeacher(teacherId=${tempTeacher.id})}" class="btn btn-danger btn-sm"
-                   onclick="if(!(confirm('Ви дійсно бажаєте видалити цей запис?'))) return false">Видалити дані</a>
+                   onclick="if(!(confirm('Ви дійсно бажаєте видалити цей запис?'))) return false">Видалити</a>
 
             </td>
         </tr>
