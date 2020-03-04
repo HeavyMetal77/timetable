@@ -15,15 +15,15 @@ public class SchoolClass {
     private String nameClass;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="schoolClass",
-            cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+            cascade= {CascadeType.ALL})
     private List<Lesson> lessons;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="schoolClass",
-            cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+            cascade= {CascadeType.ALL})
     private List<Subject> subjects;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy="schoolClass",
-            cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+            cascade= {CascadeType.ALL})
     private List<SubjectIntMap> subjectIntMap;
 
 

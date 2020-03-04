@@ -22,11 +22,14 @@
     <br>
     <hr>
     <br>
-    Кількість вчителів в базі:
-    <td th:text="${countTeachers}"></td>
+
 
     <hr>
+    Кількість вчителів в базі: <td th:text="${countTeachers}"></td><br>
     <td><a th:href="@{/timetable/list-teachers}">Відкрити список вчителів</a></td>
+    <hr>
+    Кількість предметів в базі: <td th:text="${countSubjects}"></td><br>
+    <td><a th:href="@{/timetable/list-subjects}">Відкрити список предметів</a></td>
 
 </div>
 

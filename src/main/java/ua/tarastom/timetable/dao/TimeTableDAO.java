@@ -7,10 +7,6 @@ import java.util.List;
 public interface TimeTableDAO {
     //методи для роботи з БД
 
-    Teacher findTeacherById(int theId);
-
-    void deleteTeacher(Teacher theTeacher);
-
     List<Subject> getSubjectList();
 
     List<SchoolClass> getSchoolClassList();
