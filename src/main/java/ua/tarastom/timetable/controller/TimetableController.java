@@ -3,13 +3,16 @@ package ua.tarastom.timetable.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ua.tarastom.timetable.entity.SchoolClass;
 import ua.tarastom.timetable.entity.Subject;
+import ua.tarastom.timetable.entity.SubjectIntMap;
 import ua.tarastom.timetable.entity.Teacher;
 import ua.tarastom.timetable.service.SubjectIntMapService;
 import ua.tarastom.timetable.service.SubjectService;
 import ua.tarastom.timetable.service.TeacherService;
 import ua.tarastom.timetable.util.TimetableUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -37,13 +40,23 @@ public class TimetableController {
 
     @RequestMapping("/showFormForAddTeacher")
     public String showFormForAddTeacher(Model model) {
-        Teacher teacher = new Teacher();
-        model.addAttribute("teacher", teacher);
+        Teacher theTeacher = new Teacher();
+        Subject theSubject = new Subject();
+        SchoolClass theSchoolClass = new SchoolClass();
+        model.addAttribute("teacher", theTeacher);
+        model.addAttribute("subject", theSubject);
+        model.addAttribute("schoolClass", theSchoolClass);
         return "teacher/add-teacher";
     }
 
     @PostMapping("/saveTeacher")
-    public String saveTeacher(@ModelAttribute("teacher") Teacher teacher) {
+    public String saveTeacher(@ModelAttribute("teacher") Teacher teacher,
+                              @ModelAttribute("subject") Subject subject,
+                              @ModelAttribute("schoolClass") SchoolClass schoolClass) {
+        List<SubjectIntMap>  subjectIntMaps = new ArrayList<>();
+        SubjectIntMap subjectIntMap = new SubjectIntMap(schoolClass, subject, teacher, 10);
+        subjectIntMaps.add(subjectIntMap);
+        teacher.setSubjectIntMaps(subjectIntMaps);
         teacherService.saveTeacher(teacher);
         return "redirect:list-teachers";
     }
@@ -57,6 +70,11 @@ public class TimetableController {
     @GetMapping("/showFormForUpdateTeacher")
     public String showFormForUpdateTeacher(@RequestParam("teacherId") int teacherId, Model model) {
         Teacher theTeacher = teacherService.findTeacherById(teacherId);
+        List<SubjectIntMap> subjectIntMaps = theTeacher.getSubjectIntMaps();
+        Subject theSubject = subjectIntMaps.get(0).getSubject(); //TODO hardkode
+        SchoolClass theSchoolClass = theSubject.getSchoolClass();
+        model.addAttribute("subject", theSubject);
+        model.addAttribute("schoolClass", theSchoolClass);
         model.addAttribute("teacher", theTeacher);
         return "teacher/add-teacher";
     }
@@ -96,10 +114,9 @@ public class TimetableController {
 
     @RequestMapping("/test-list-need-teacher")
     public String listNeedTeacher(Model model) {
-        Subject subject = subjectIntMapService.getAllSubjectIntMaps().get(3).getSubject();
+        Subject subject = subjectIntMapService.getAllSubjectIntMaps().get(0).getSubject();
         List<Teacher> teacherList = timetableUtils.getTeacher(teacherService.getAllTeachers(), subject, 12);
         model.addAttribute("teacherList", teacherList);
-        model.addAttribute("tempSubject", subject);
         return "teacher/list-teachers";
     }
 }

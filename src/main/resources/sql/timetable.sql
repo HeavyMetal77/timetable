@@ -12,6 +12,7 @@ CREATE TABLE `teacher`
     `middle_name` varchar(45) DEFAULT NULL,
     `last_name`   varchar(45) DEFAULT NULL,
     `email`       varchar(45) DEFAULT NULL,
+    `total_hours_allocated` int(11) DEFAULT 0,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = UTF8;
 
@@ -92,20 +93,20 @@ CREATE TABLE `lesson`
 SET FOREIGN_KEY_CHECKS = 1;
 
 INSERT INTO `day_of_week`
-VALUES (1, 'MONDAY'),
-       (2, 'TUESDAY'),
-       (3, 'WEDNESDAY'),
-       (4, 'THURSDAY'),
-       (5, 'FRIDAY'),
-       (6, 'SATURDAY'),
-       (7, 'SUNDAY');
+VALUES (1, 'Понеділок'),
+       (2, 'Вівторок'),
+       (3, 'Середа'),
+       (4, 'Четвер'),
+       (5, 'П\'ятниця'),
+       (6, 'Субота'),
+       (7, 'Неділя');
 
 INSERT INTO `teacher`
-VALUES (1, 'Іван', 'Олександрович', 'Іванов', 'ivanov@ukr.net'),
-       (2, 'Петро', 'Миколайович', 'Петров', 'petrov@ukr.net'),
-       (3, 'Марія', 'Віталівна', 'Гула', 'gula@ukr.net'),
-       (4, 'Галина', 'Петрівна', 'Сокирко', 'sokirko@ukr.net'),
-       (5, 'Андрій', 'Іванович', 'Жук', 'ghuk@ukr.net');
+VALUES (1, 'Іван', 'Олександрович', 'Іванов', 'ivanov@ukr.net', 12),
+       (2, 'Петро', 'Миколайович', 'Петров', 'petrov@ukr.net', 18),
+       (3, 'Марія', 'Віталівна', 'Гула', 'gula@ukr.net', 20),
+       (4, 'Галина', 'Петрівна', 'Сокирко', 'sokirko@ukr.net', 25),
+       (5, 'Андрій', 'Іванович', 'Жук', 'ghuk@ukr.net', 22);
 
 INSERT INTO `school_class`
 VALUES (1, '8a'),
@@ -115,11 +116,11 @@ VALUES (1, '8a'),
        (5, '8e');
 
 INSERT INTO `subject`
-VALUES (1, 'mathematical', 1, 4),
-       (2, 'history', 2, 1),
-       (3, 'chemical', 1, 1),
-       (4, 'mathematical', 2, 3),
-       (5, 'history', 1, 2);
+VALUES (1, 'математика', 1, 4),
+       (2, 'історія', 2, 1),
+       (3, 'хімія', 1, 1),
+       (4, 'фізика', 2, 3),
+       (5, 'малювання', 1, 2);
 
 INSERT INTO `subject_int_map`
 VALUES (1, 1, 1, 2, 10),
@@ -129,11 +130,11 @@ VALUES (1, 1, 1, 2, 10),
        (5, 5, 5, 5, 2);
 
 INSERT INTO `class_room`
-VALUES (1, 'mathematical_classroom'),
-       (2, 'history_classroom'),
-       (3, 'chemical_classroom'),
-       (4, 'mathematical_classroom'),
-       (5, 'biology_classroom');
+VALUES (1, 'клас математики'),
+       (2, 'клас історії'),
+       (3, 'клас хімії'),
+       (4, 'клас біології'),
+       (5, 'клас фізики');
 
 INSERT INTO `lesson`
 VALUES (5, 1, 1, 1, 1, 1, 1),

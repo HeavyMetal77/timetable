@@ -22,10 +22,17 @@
         <!-- Add hidden form field to handle update -->
         <input type="hidden" th:field="*{id}"/>
 
-        <input type="text" th:field="*{firstName}" placeholder="Ім'я" class="form-control mb-4 col-4">
-        <input type="text" th:field="*{middleName}" placeholder="По-батькові" class="form-control mb-4 col-4">
-        <input type="text" th:field="*{lastName}" placeholder="Прізвище" class="form-control mb-4 col-4">
-        <input type="text" th:field="*{email}" placeholder="Email" class="form-control mb-4 col-4">
+        Ім'я <input type="text" th:field="*{firstName}" placeholder="Ім'я" class="form-control mb-4 col-4">
+        По-батькові <input type="text" th:field="*{middleName}" placeholder="По-батькові" class="form-control mb-4 col-4">
+        Прізвище <input type="text" th:field="*{lastName}" placeholder="Прізвище" class="form-control mb-4 col-4">
+        Email <input type="text" th:field="*{email}" placeholder="Email" class="form-control mb-4 col-4">
+        Загальна кількість годин <input type="text" th:field="*{totalHoursAllocated}" placeholder="Загальна кількість годин" class="form-control mb-4 col-4">
+
+        <th:block th:object="${subject}">
+            Назва класу <input type="text" th:field="*{schoolClass.nameClass}" placeholder="Назва класу" class="form-control mb-4 col-4">
+            Назва предмету <input type="text" th:field="*{nameSubject}" placeholder="Назва предмету" class="form-control mb-4 col-4">
+        </th:block>
+
         <button type="submit" class="btn btn-info col-2">Зберегти</button>
 
     </form>

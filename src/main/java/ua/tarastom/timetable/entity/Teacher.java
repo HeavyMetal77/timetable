@@ -33,17 +33,30 @@ public class Teacher {
             cascade= {CascadeType.ALL})
     private List<Lesson> lessons;
 
+    @Column(name ="total_hours_allocated")
+    private int totalHoursAllocated;
+
     public Teacher() {
         lessons = new ArrayList<>();
     }
 
-    public Teacher(int id, String firstName, String middleName, String lastName, String email, List<Lesson> lessons) {
+    public Teacher(String firstName, String middleName, String lastName, String email, List<SubjectIntMap> subjectIntMaps, int totalHoursAllocated) {
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.email = email;
+        this.subjectIntMaps = subjectIntMaps;
+        this.totalHoursAllocated = totalHoursAllocated;
+    }
+
+    public Teacher(int id, String firstName, String middleName, String lastName, String email, List<Lesson> lessons, int totalHoursAllocated) {
         this.id = id;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
         this.email = email;
         this.lessons = lessons;
+        this.totalHoursAllocated = totalHoursAllocated;
     }
 
     public int getId() {
@@ -113,6 +126,14 @@ public class Teacher {
                 "\n, " + lessons +
                 "\n, " + subjectIntMaps +
                 '}';
+    }
+
+    public int getTotalHoursAllocated() {
+        return totalHoursAllocated;
+    }
+
+    public void setTotalHoursAllocated(int totalHoursAllocated) {
+        this.totalHoursAllocated = totalHoursAllocated;
     }
 }
 
