@@ -12,13 +12,14 @@ import java.util.List;
 public class TimetableUtilsImpl implements TimetableUtils {
 
     @Override
-    public List<Teacher> getTeacher(List<Teacher> teacherList, SubjectIntMap subjectIntMap) {
+    public List<Teacher> getTeacher(List<Teacher> teacherList, Subject theSubject, int value) {
         List<Teacher> teachers = new ArrayList<>();
         for (Teacher teacher : teacherList) {
             List<SubjectIntMap> subjectIntMaps = teacher.getSubjectIntMaps();
             for (SubjectIntMap map : subjectIntMaps) {
                 Subject subject = map.getSubject();
-                if (subjectIntMap.getSubject().equals(subject)) {
+                int value1 = map.getValue();
+                if (theSubject.equals(subject) && value1 < value) {
                     teachers.add(teacher);
                 }
             }

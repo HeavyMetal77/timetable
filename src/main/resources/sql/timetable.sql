@@ -21,7 +21,8 @@ CREATE TABLE `subject`
 (
     `id`              int(11) NOT NULL AUTO_INCREMENT,
     `name_subject`    varchar(45) DEFAULT NULL,
-    `school_class_id` int(45)     DEFAULT NULL,
+    `school_class_id` int(11)     DEFAULT NULL,
+    `value_hours`     int(11)     DEFAULT 0,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`school_class_id`) REFERENCES `school_class` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 DEFAULT CHARSET = UTF8;
@@ -100,11 +101,11 @@ VALUES (1, 'MONDAY'),
        (7, 'SUNDAY');
 
 INSERT INTO `teacher`
-VALUES (1, 'Ivan', 'Olexandrovich', 'Ivanov', 'ivanov@ukr.net'),
-       (2, 'Petro', 'Mikolayovich', 'Petrov', 'petrov@ukr.net'),
-       (3, 'Maria', 'Vitalivna', 'Gula', 'gula@ukr.net'),
-       (4, 'Galina', 'Petrivna', 'Bec', 'bec@ukr.net'),
-       (5, 'Andriy', 'Ivanovich', 'Ghuk', 'ghuk@ukr.net');
+VALUES (1, 'Іван', 'Олександрович', 'Іванов', 'ivanov@ukr.net'),
+       (2, 'Петро', 'Миколайович', 'Петров', 'petrov@ukr.net'),
+       (3, 'Марія', 'Віталівна', 'Гула', 'gula@ukr.net'),
+       (4, 'Галина', 'Петрівна', 'Сокирко', 'sokirko@ukr.net'),
+       (5, 'Андрій', 'Іванович', 'Жук', 'ghuk@ukr.net');
 
 INSERT INTO `school_class`
 VALUES (1, '8a'),
@@ -114,11 +115,11 @@ VALUES (1, '8a'),
        (5, '8e');
 
 INSERT INTO `subject`
-VALUES (1, 'mathematical', 1),
-       (2, 'history', 2),
-       (3, 'chemical', 1),
-       (4, 'mathematical', 2),
-       (5, 'history', 1);
+VALUES (1, 'mathematical', 1, 4),
+       (2, 'history', 2, 1),
+       (3, 'chemical', 1, 1),
+       (4, 'mathematical', 2, 3),
+       (5, 'history', 1, 2);
 
 INSERT INTO `subject_int_map`
 VALUES (1, 1, 1, 2, 10),

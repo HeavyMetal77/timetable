@@ -17,13 +17,16 @@ public class Subject {
     @JoinColumn(name = "school_class_id")
     private SchoolClass schoolClass;
 
+    private int valueHours;
+
     public Subject() {
     }
 
-    public Subject(int id, String nameSubject, SchoolClass schoolClass) {
+    public Subject(int id, String nameSubject, SchoolClass schoolClass, int valueHours) {
         this.id = id;
         this.schoolClass = schoolClass;
         this.nameSubject = nameSubject;
+        this.valueHours = valueHours;
     }
 
     public SchoolClass getSchoolClass() {
@@ -56,5 +59,13 @@ public class Subject {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getValueHours() {
+        return valueHours;
+    }
+
+    public void setValueHours(int valueHours) {
+        this.valueHours = valueHours;
     }
 }

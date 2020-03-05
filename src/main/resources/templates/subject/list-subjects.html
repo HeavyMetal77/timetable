@@ -40,6 +40,7 @@
             <th>№</th>
             <th>Назва предмета</th>
             <th>Назва (номер) класу</th>
+            <th>Кількість годин</th>
             <th>Дія</th>
         </tr>
         </thead>
@@ -49,6 +50,7 @@
             <td th:text="${tempSubject.id}"></td>
             <td th:text="${tempSubject.nameSubject}"></td>
             <td th:text="${tempSubject.schoolClass.nameClass}"></td>
+            <td th:text="${tempSubject.valueHours}"></td>
             <td>
                 <!-- Add update button -->
                 <a th:href="@{/timetable/showFormForUpdateSubject(subjectId=${tempSubject.id})}"

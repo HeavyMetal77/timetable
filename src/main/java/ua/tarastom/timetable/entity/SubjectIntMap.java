@@ -86,7 +86,7 @@ public class SubjectIntMap {
     @Override
     public String toString() {
         return schoolClass.getNameClass() +
-                ", " + subject.getNameSubject() +
-                ", " + value;
+                "-клас, " + subject.getNameSubject() +
+                ", " + value + " годин";
     }
 }

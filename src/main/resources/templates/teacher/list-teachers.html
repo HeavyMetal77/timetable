@@ -17,23 +17,12 @@
 <body>
 <div class="container"> <!--step 2 -->
 
-    <br>
-    <a th:href="@{/}" class="btn btn-info btn-xs mb-3">
-        На головну сторінку
-    </a>
-    <br>
+    <a th:href="@{/}" class="btn btn-info btn-xs mb-3">На головну сторінку</a>
     <hr>
-
-    <br>
-    <a th:href="@{/timetable/showFormForAddTeacher}" class="btn btn-primary btn-xs mb-3">
-        Додати вчителя
-    </a>
-
-
-    <br>
+    <a th:href="@{/timetable/showFormForAddTeacher}" class="btn btn-primary btn-xs mb-3">Додати вчителя</a>
     <hr>
     <h3>Список вчителів:</h3>
-    <hr>
+
     <table class="table table-bordered table-striped"> <!--step 3 -->
         <thead class="thead-dark"> <!--step 4 -->
         <tr>
@@ -56,6 +45,8 @@
             <td th:text="${tempTeacher.firstName}"></td>
             <td th:text="${tempTeacher.middleName}"></td>
             <td th:text="${tempTeacher.email}"></td>
+
+                                        <!--var1-->
             <td>
                 <table>
                     <tbody>
@@ -68,7 +59,15 @@
                 </table>
             </td>
 
+                                            <!--var2-->
+<!--            <td th:text="${#strings.arrayJoin(-->
+<!--                   #messages.arrayMsg(-->
+<!--                       #strings.arrayPrepend(tempTeacher.subjectIntMaps,' ')),-->
+<!--                   '/ ')}">-->
+<!--            </td>-->
+
             <td>
+
                 <!-- Add update button -->
                 <a th:href="@{/timetable/showFormForUpdateTeacher(teacherId=${tempTeacher.id})}"
                    class="btn btn-info btn-sm">Оновити</a>
@@ -81,6 +80,16 @@
         </tr>
         </tbody>
     </table>
+
+    Test:
+    <table>
+        <tr>
+        <tr th:text="${tempSubject.nameSubject}">
+
+    </table>
+
+
+    <br>
 </div>
 </body>
 </html>
