@@ -59,6 +59,7 @@ public class TimetableController {
         List<SubjectIntMap> subjectIntMaps = new ArrayList<>();
         List<SchoolClass> allSchoolClasses = schoolClassService.getAllSchoolClasses();
 
+        //перевірка на наявність класу в базі
         for (SchoolClass theSchoolClass : allSchoolClasses) {
             if (theSchoolClass.getNameClass().equals(schoolClass.getNameClass())) {
                 subject.setSchoolClass(theSchoolClass);
@@ -66,8 +67,23 @@ public class TimetableController {
             }
         }
         if (subject.getSchoolClass() == null) {
-            subject.setSchoolClass(schoolClass);
+            subject.setSchoolClass(schoolClass); //відсутній - додаємо новий
         }
+        List<Subject> allSubjects = subjectService.getAllSubjects();
+
+        //перевірка на наявність предмету в базі
+        boolean flag = true;
+        for (Subject theSubject : allSubjects) {
+            if (theSubject.getNameSubject().equals(subject.getNameSubject())) {
+                subject = theSubject;
+                flag = false;
+                break;
+            }
+        }
+        if (flag) {
+            subject.setId(0); //відсутній - додаємо новий
+        }
+
         SubjectIntMap subjectIntMap = new SubjectIntMap(subject, teacher, 0);
         subjectIntMaps.add(subjectIntMap);
         teacher.setSubjectIntMaps(subjectIntMaps);
