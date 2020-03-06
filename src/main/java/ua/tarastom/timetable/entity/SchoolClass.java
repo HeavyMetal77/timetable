@@ -14,27 +14,20 @@ public class SchoolClass {
     @Column(name = "name_class")
     private String nameClass;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="schoolClass",
-            cascade= {CascadeType.ALL})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="schoolClass", cascade= {CascadeType.ALL})
     private List<Lesson> lessons;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="schoolClass",
-            cascade= {CascadeType.ALL})
-    private List<Subject> subjects;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="schoolClass",
-            cascade= {CascadeType.ALL})
+    @OneToMany(fetch = FetchType.LAZY, cascade= {CascadeType.ALL})
+    @JoinColumn(name = "id")
     private List<SubjectIntMap> subjectIntMap;
-
 
     public SchoolClass() {
     }
 
-    public SchoolClass(int id, String nameClass, List<Lesson> lessons, List<Subject> subjects, List<SubjectIntMap> subjectIntMap) {
+    public SchoolClass(int id, String nameClass, List<Lesson> lessons, List<SubjectIntMap> subjectIntMap) {
         this.id = id;
         this.nameClass = nameClass;
         this.lessons = lessons;
-        this.subjects = subjects;
         this.subjectIntMap = subjectIntMap;
     }
 
@@ -62,14 +55,6 @@ public class SchoolClass {
         this.lessons = lessons;
     }
 
-    public List<Subject> getSubjects() {
-        return subjects;
-    }
-
-    public void setSubjects(List<Subject> subjects) {
-        this.subjects = subjects;
-    }
-
     public List<SubjectIntMap> getSubjectIntMap() {
         return subjectIntMap;
     }
@@ -80,8 +65,6 @@ public class SchoolClass {
 
     @Override
     public String toString() {
-        return "SchoolClass{" +
-                "nameClass='" + nameClass + '\'' +
-                '}';
+        return nameClass;
     }
 }

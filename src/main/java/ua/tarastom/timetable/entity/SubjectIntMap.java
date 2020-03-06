@@ -2,14 +2,6 @@ package ua.tarastom.timetable.entity;
 
 import javax.persistence.*;
 
-/**
- * Клас зберігає поля
- * клас,
- * предмет
- * кількість годин, виділених на предмет в певному класі
- * id вчителя
- */
-
 @Entity
 @Table(name = "subject_int_map")
 public class SubjectIntMap {
@@ -18,15 +10,11 @@ public class SubjectIntMap {
     @Column(name = "id")
     private int id;
 
-    @ManyToOne(cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name = "school_class_id")
-    private SchoolClass schoolClass;
-
-    @ManyToOne(cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "subject_id")
     private Subject subject;
 
-    @ManyToOne(cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
@@ -36,16 +24,14 @@ public class SubjectIntMap {
     public SubjectIntMap() {
     }
 
-    public SubjectIntMap(SchoolClass schoolClass, Subject subject, Teacher teacher, int value) {
-        this.schoolClass = schoolClass;
+    public SubjectIntMap(Subject subject, Teacher teacher, int value) {
         this.subject = subject;
         this.teacher = teacher;
         this.value = value;
     }
 
-    public SubjectIntMap(int id, SchoolClass schoolClass, Subject subject, int value) {
+    public SubjectIntMap(int id, Subject subject, int value) {
         this.id = id;
-        this.schoolClass = schoolClass;
         this.subject = subject;
         this.value = value;
     }
@@ -56,14 +42,6 @@ public class SubjectIntMap {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public SchoolClass getSchoolClass() {
-        return schoolClass;
-    }
-
-    public void setSchoolClass(SchoolClass schoolClass) {
-        this.schoolClass = schoolClass;
     }
 
     public Subject getSubject() {
@@ -92,8 +70,7 @@ public class SubjectIntMap {
 
     @Override
     public String toString() {
-        return schoolClass.getNameClass() +
-                "-клас, " + subject.getNameSubject() +
+        return subject.getNameSubject() +
                 ", " + value + " годин";
     }
 }

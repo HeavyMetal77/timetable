@@ -7,6 +7,7 @@ import ua.tarastom.timetable.entity.SchoolClass;
 import ua.tarastom.timetable.entity.Subject;
 import ua.tarastom.timetable.entity.SubjectIntMap;
 import ua.tarastom.timetable.entity.Teacher;
+import ua.tarastom.timetable.service.SchoolClassService;
 import ua.tarastom.timetable.service.SubjectIntMapService;
 import ua.tarastom.timetable.service.SubjectService;
 import ua.tarastom.timetable.service.TeacherService;
@@ -23,12 +24,14 @@ public class TimetableController {
     private SubjectService subjectService;
     private TimetableUtils timetableUtils;
     private SubjectIntMapService subjectIntMapService;
+    private SchoolClassService schoolClassService;
 
-    public TimetableController(TeacherService teacherService, SubjectService subjectService, TimetableUtils timetableUtils, SubjectIntMapService subjectIntMapService) {
+    public TimetableController(TeacherService teacherService, SubjectService subjectService, TimetableUtils timetableUtils, SubjectIntMapService subjectIntMapService, SchoolClassService schoolClassService) {
         this.teacherService = teacherService;
         this.subjectService = subjectService;
         this.timetableUtils = timetableUtils;
         this.subjectIntMapService = subjectIntMapService;
+        this.schoolClassService = schoolClassService;
     }
 
     @RequestMapping("/list-teachers")
@@ -53,30 +56,48 @@ public class TimetableController {
     public String saveTeacher(@ModelAttribute("teacher") Teacher teacher,
                               @ModelAttribute("subject") Subject subject,
                               @ModelAttribute("schoolClass") SchoolClass schoolClass) {
-        List<SubjectIntMap>  subjectIntMaps = new ArrayList<>();
-        SubjectIntMap subjectIntMap = new SubjectIntMap(schoolClass, subject, teacher, 10);
+        List<SubjectIntMap> subjectIntMaps = new ArrayList<>();
+        List<SchoolClass> allSchoolClasses = schoolClassService.getAllSchoolClasses();
+
+        for (SchoolClass theSchoolClass : allSchoolClasses) {
+            if (theSchoolClass.getNameClass().equals(schoolClass.getNameClass())) {
+                subject.setSchoolClass(theSchoolClass);
+                break;
+            }
+        }
+        if (subject.getSchoolClass() == null) {
+            subject.setSchoolClass(schoolClass);
+        }
+        SubjectIntMap subjectIntMap = new SubjectIntMap(subject, teacher, 0);
         subjectIntMaps.add(subjectIntMap);
         teacher.setSubjectIntMaps(subjectIntMaps);
         teacherService.saveTeacher(teacher);
         return "redirect:list-teachers";
     }
 
-    @PostMapping("/saveSubject")
-    public String saveSubject(@ModelAttribute("subject") Subject subject) {
-        subjectService.saveSubject(subject);
-        return "redirect:list-subjects";
-    }
-
     @GetMapping("/showFormForUpdateTeacher")
     public String showFormForUpdateTeacher(@RequestParam("teacherId") int teacherId, Model model) {
         Teacher theTeacher = teacherService.findTeacherById(teacherId);
         List<SubjectIntMap> subjectIntMaps = theTeacher.getSubjectIntMaps();
-        Subject theSubject = subjectIntMaps.get(0).getSubject(); //TODO hardkode
-        SchoolClass theSchoolClass = theSubject.getSchoolClass();
+        Subject theSubject;
+        SchoolClass theSchoolClass;
+        if (subjectIntMaps.size() == 0) {
+            theSubject = new Subject();
+            theSchoolClass = new SchoolClass();
+        } else {
+            theSubject = subjectIntMaps.get(0).getSubject();//TODO hardkode
+            theSchoolClass = theSubject.getSchoolClass();
+        }
         model.addAttribute("subject", theSubject);
         model.addAttribute("schoolClass", theSchoolClass);
         model.addAttribute("teacher", theTeacher);
         return "teacher/add-teacher";
+    }
+
+    @PostMapping("/saveSubject")
+    public String saveSubject(@ModelAttribute("subject") Subject subject) {
+        subjectService.saveSubject(subject);
+        return "redirect:list-subjects";
     }
 
     @GetMapping("/showFormForUpdateSubject")
