@@ -3,6 +3,7 @@ package ua.tarastom.timetable.entity;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "teacher")
@@ -38,6 +39,7 @@ public class Teacher {
 
     public Teacher() {
         lessons = new ArrayList<>();
+        subjectIntMaps = new ArrayList<>();
     }
 
     public Teacher(String firstName, String middleName, String lastName, String email, List<SubjectIntMap> subjectIntMaps, int totalHoursAllocated) {
@@ -134,6 +136,26 @@ public class Teacher {
 
     public void setTotalHoursAllocated(int totalHoursAllocated) {
         this.totalHoursAllocated = totalHoursAllocated;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Teacher teacher = (Teacher) o;
+        return id == teacher.id &&
+                totalHoursAllocated == teacher.totalHoursAllocated &&
+                firstName.equals(teacher.firstName) &&
+                middleName.equals(teacher.middleName) &&
+                lastName.equals(teacher.lastName) &&
+                Objects.equals(email, teacher.email) &&
+                Objects.equals(subjectIntMaps, teacher.subjectIntMaps) &&
+                Objects.equals(lessons, teacher.lessons);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, middleName, lastName, email, subjectIntMaps, lessons, totalHoursAllocated);
     }
 }
 

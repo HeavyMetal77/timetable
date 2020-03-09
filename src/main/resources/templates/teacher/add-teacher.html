@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <!--step 1 from https://getbootstrap.com/docs/4.4/getting-started/introduction/-->
+    <!-- https://getbootstrap.com/docs/4.4/getting-started/introduction/-->
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,39 +9,81 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-    <title>Додати вчителя</title>
+    <title>Додати (оновити) дані вчителя</title>
 </head>
 <body>
 <div class="container">
 
-    <p class="h4 mb-4">Додати вчителя</p>
-
-    <form action="#" th:action="@{/timetable/saveTeacher}" th:object="${teacher}" method="post">
-
+    <p class="h4 mb-4">Додати (оновити) дані вчителя</p>
+    <form action="#" method="post" th:action="@{/timetable/saveTeacher}" th:object="${teacher}">
         <!-- Add hidden form field to handle update -->
         <input type="hidden" th:field="*{id}"/>
 
-        Ім'я <input type="text" th:field="*{firstName}" placeholder="Ім'я" class="form-control mb-4 col-4">
-        По-батькові <input type="text" th:field="*{middleName}" placeholder="По-батькові" class="form-control mb-4 col-4">
-        Прізвище <input type="text" th:field="*{lastName}" placeholder="Прізвище" class="form-control mb-4 col-4">
-        Email <input type="text" th:field="*{email}" placeholder="Email" class="form-control mb-4 col-4">
-        Загальна кількість годин <input type="text" th:field="*{totalHoursAllocated}" placeholder="Загальна кількість годин" class="form-control mb-4 col-4">
+        Ім'я <input type="text" th:field="*{firstName}" placeholder="Ім'я" class="form-control mb-1 col-4">
+        По-батькові <input type="text" th:field="*{middleName}" placeholder="По-батькові"
+                           class="form-control mb-1 col-4">
+        Прізвище <input type="text" th:field="*{lastName}" placeholder="Прізвище" class="form-control mb-1 col-4">
+        Email <input type="text" th:field="*{email}" placeholder="Email" class="form-control mb-1 col-4">
+        Загальна кількість годин <input type="text" th:field="*{totalHoursAllocated}"
+                                        placeholder="Загальна кількість годин" class="form-control mb-1 col-4">
+        <table>
+            <tbody>
+            <th:block th:each="subjectIntMap,rowStat : ${teacher.subjectIntMaps}">
+            <tr>
+                <td>
+                    <label>
+                        <select th:if="${teacher.subjectIntMaps[__${rowStat.index}__].subject.schoolClass != null}"
+                        th:name="selectClass" class="form-control mb-2 col-12">
+                        <option value=""> Виберіть клас</option>
+                        <option th:each="theSchoolClass : ${allSchoolClasses}"
+                                th:selected="${theSchoolClass.id == subjectIntMap.subject.schoolClass.id}"
+                                th:value="${theSchoolClass.id}"
+                                th:text="${theSchoolClass.nameClass}">
+                        </option>
+                        </select>
+                    </label>
+                </td>
 
-        <th:block th:object="${schoolClass}">
-            Назва класу <input type="text" th:field="*{nameClass}" placeholder="Назва класу" class="form-control mb-4 col-4">
+                <td>
+                    <label>
+                        <select th:if="${teacher.subjectIntMaps[__${rowStat.index}__].subject != null}"
+                                th:name="selectSubject" class="form-control mb-2 col-12">
+                            <option value=""> Виберіть предмет</option>
+                            <option th:each="theSubject : ${allSubjects}"
+                                    th:selected="${theSubject.id == subjectIntMap.subject.id}"
+                                    th:value="${theSubject.id}"
+                                    th:text="${theSubject.nameSubject}">
+                            </option>
+                        </select>
+                    </label>
+                </td>
+
+                <td>
+                    <th:block>
+                        <input type="hidden" name="teacherId" id="teacherId" th:value="${teacher.id}"/>
+                        <button type="submit" name="action" value="deleteRow" th:value="${'deleteRow' + rowStat.index}">Видалити</button>
+                    </th:block>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <th:block th:if="(__${rowStat.index}__ == (${#lists.size(teacher.subjectIntMaps)}-1)) or (${#lists.size(teacher.subjectIntMaps)} == 0)">
+                        <button type="submit" name="action" id="addRow" value="addRow">Додати</button>
+                    </th:block>
+                </td>
+            </tr>
+            </th:block>
+            </tbody>
+        </table>
+
+        <br>
+        <th:block>
+            <button type="submit" name="action" id="save" value="save" class="btn btn-info mb-2 col-2">Зберегти</button>
         </th:block>
-
-        <th:block th:object="${subject}">
-            Назва предмету <input type="text" th:field="*{nameSubject}" placeholder="Назва предмету" class="form-control mb-4 col-4">
-        </th:block>
-
-        <button type="submit" class="btn btn-info col-2">Зберегти</button>
-
     </form>
-
     <hr>
     <a th:href="@{/timetable/list-teachers}">Повернутись до списку вчителів</a>
-
 </div>
 </body>
 </html>

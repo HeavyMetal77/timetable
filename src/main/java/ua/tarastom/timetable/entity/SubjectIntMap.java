@@ -24,7 +24,12 @@ public class SubjectIntMap {
     public SubjectIntMap() {
     }
 
-    public SubjectIntMap(Subject subject, Teacher teacher, int value) {
+    public SubjectIntMap(Subject subject, Teacher teacher) {
+        this.subject = subject;
+        this.teacher = teacher;
+    }
+
+    public SubjectIntMap(int value, Subject subject, Teacher teacher) {
         this.subject = subject;
         this.teacher = teacher;
         this.value = value;

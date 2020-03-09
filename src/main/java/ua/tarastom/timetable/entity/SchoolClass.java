@@ -14,10 +14,10 @@ public class SchoolClass {
     @Column(name = "name_class")
     private String nameClass;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="schoolClass", cascade= {CascadeType.ALL})
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "schoolClass", cascade = {CascadeType.ALL})
     private List<Lesson> lessons;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade= {CascadeType.ALL})
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name = "id")
     private List<SubjectIntMap> subjectIntMap;
 
