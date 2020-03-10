@@ -1,7 +1,10 @@
 package ua.tarastom.timetable.controller;
 
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.tarastom.timetable.entity.SchoolClass;
 import ua.tarastom.timetable.entity.Subject;
@@ -95,12 +98,27 @@ public class TimetableController {
         return "teacher/add-teacher";
     }
 
+    //для обрезки пробелов (препроцессор)
+    @InitBinder
+    public void initBinder(WebDataBinder dataBinder) {
+        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+        dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+    }
+
     @PostMapping("/saveTeacher")
-    public String saveTeacher(@ModelAttribute("teacher") Teacher theTeacher, Model model,
+    public String saveTeacher(@Valid @ModelAttribute("teacher") Teacher theTeacher, BindingResult bindingResult, Model model,
                               @Valid String[] selectClass, @Valid String[] selectSubject,
                               @RequestParam(value="action") String action) {
         List<Subject> allSubjects = subjectService.getAllSubjects();
         List<SchoolClass> allSchoolClasses = schoolClassService.getAllSchoolClasses();
+
+        if (bindingResult.hasErrors()) {
+            theTeacher.getSubjectIntMaps().add(createEmptySubjectIntMap(theTeacher));
+            model.addAttribute("allSchoolClasses", allSchoolClasses);
+            model.addAttribute("allSubjects", allSubjects);
+            model.addAttribute("teacher", theTeacher);
+            return "teacher/add-teacher";
+        }
 
         if (action.equals("addRow")) {
                 List<SubjectIntMap> subjectIntMaps = new ArrayList<>();

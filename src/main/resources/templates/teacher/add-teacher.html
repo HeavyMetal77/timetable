@@ -9,6 +9,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
+    <style>
+        .error {
+            color: red
+        }
+    </style>
+
     <title>Додати (оновити) дані вчителя</title>
 </head>
 <body>
@@ -20,12 +26,21 @@
         <input type="hidden" th:field="*{id}"/>
 
         Ім'я <input type="text" th:field="*{firstName}" placeholder="Ім'я" class="form-control mb-1 col-4">
+        <p class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+
         По-батькові <input type="text" th:field="*{middleName}" placeholder="По-батькові"
                            class="form-control mb-1 col-4">
+        <p class="error" th:if="${#fields.hasErrors('middleName')}" th:errors="*{middleName}"></p>
+
         Прізвище <input type="text" th:field="*{lastName}" placeholder="Прізвище" class="form-control mb-1 col-4">
+        <p class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+
         Email <input type="text" th:field="*{email}" placeholder="Email" class="form-control mb-1 col-4">
+
         Загальна кількість годин <input type="text" th:field="*{totalHoursAllocated}"
                                         placeholder="Загальна кількість годин" class="form-control mb-1 col-4">
+        <p class="error" th:if="${#fields.hasErrors('totalHoursAllocated')}" th:errors="*{totalHoursAllocated}"></p>
+
         <table>
             <tbody>
             <th:block th:each="subjectIntMap,rowStat : ${teacher.subjectIntMaps}">

@@ -1,6 +1,9 @@
 package ua.tarastom.timetable.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -13,19 +16,24 @@ public class Teacher {
     @Column(name = "id")
     private int id;
 
+    @NotNull(message = "поле не може бути порожнім")
+    @Size(min=2, max=50, message = "Кількість знаків повинна бути від 2 до 50")
     @Column(name ="first_name")
     private String firstName;
 
+    @NotNull(message = "поле не може бути порожнім")
+    @Size(min=4, max=50, message = "Кількість знаків повинна бути від 4 до 50")
     @Column(name ="middle_name")
     private String middleName;
 
+    @NotNull(message = "поле не може бути порожнім")
+    @Size(min=2, max=50, message = "Кількість знаків повинна бути від 2 до 50")
     @Column(name ="last_name")
     private String lastName;
 
     @Column(name ="email")
     private String email; //TODO реалізувати функцію відправки кожному вчителю розкладу занять на емейл
 
-    //TODO перевірити правильність каскадного видалення (всіх каскадних операцій) для пов'язаних об'єктів
     @OneToMany(fetch = FetchType.LAZY, mappedBy="teacher",
             cascade= {CascadeType.ALL})
     private List<SubjectIntMap> subjectIntMaps;
@@ -34,6 +42,7 @@ public class Teacher {
             cascade= {CascadeType.ALL})
     private List<Lesson> lessons;
 
+    @Digits(integer=2, fraction=0, message = "Не більше 2-х цифр")
     @Column(name ="total_hours_allocated")
     private int totalHoursAllocated;
 
