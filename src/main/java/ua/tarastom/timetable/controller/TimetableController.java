@@ -56,6 +56,8 @@ public class TimetableController {
     @GetMapping("/showFormForUpdateSubject")
     public String showFormForUpdateSubject(@RequestParam("subjectId") int subjectId, Model model) {
         Subject theSubject = subjectService.findSubjectById(subjectId);
+        List<SchoolClass> allSchoolClasses = schoolClassService.getAllSchoolClasses();
+        model.addAttribute("allSchoolClasses", allSchoolClasses);
         model.addAttribute("subject", theSubject);
         return "subject/add-subject";
     }
@@ -82,6 +84,8 @@ public class TimetableController {
     @RequestMapping("/showFormForAddSubject")
     public String showFormForAddSubject(Model model) {
         Subject subject = new Subject();
+        List<SchoolClass> allSchoolClasses = schoolClassService.getAllSchoolClasses();
+        model.addAttribute("allSchoolClasses", allSchoolClasses);
         model.addAttribute("subject", subject);
         return "subject/add-subject";
     }
@@ -92,9 +96,7 @@ public class TimetableController {
         List<SchoolClass> allSchoolClasses = schoolClassService.getAllSchoolClasses();
         List<Subject> allSubjects = subjectService.getAllSubjects();
         theTeacher.getSubjectIntMaps().add(createEmptySubjectIntMap(theTeacher));
-        model.addAttribute("allSchoolClasses", allSchoolClasses);
-        model.addAttribute("allSubjects", allSubjects);
-        model.addAttribute("teacher", theTeacher);
+        setModelAttributes(model, theTeacher, allSubjects, allSchoolClasses);
         return "teacher/add-teacher";
     }
 
