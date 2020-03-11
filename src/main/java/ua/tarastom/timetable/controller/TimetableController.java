@@ -112,12 +112,15 @@ public class TimetableController {
 
         List<Integer> selectClassList = new ArrayList<>();
         List<Integer> selectSubjectList = new ArrayList<>();
-        for (int i = 0; i < selectClass.length; i++) {
-            if (!selectClass[i].equals("") && !selectSubject[i].equals("")) {
-                selectClassList.add(Integer.parseInt(selectClass[i]));
-                selectSubjectList.add(Integer.parseInt(selectSubject[i]));
+        if (selectClass.length != 0 && selectSubject.length != 0) {
+            for (int i = 0; i < selectClass.length; i++) {
+                if (!selectClass[i].equals("") && !selectSubject[i].equals("")) {
+                    selectClassList.add(Integer.parseInt(selectClass[i]));
+                    selectSubjectList.add(Integer.parseInt(selectSubject[i]));
+                }
             }
         }
+
         List<Subject> allSubjects = subjectService.getAllSubjects();
         List<SchoolClass> allSchoolClasses = schoolClassService.getAllSchoolClasses();
 
