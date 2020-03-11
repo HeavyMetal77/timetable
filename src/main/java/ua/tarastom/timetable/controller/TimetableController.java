@@ -108,75 +108,65 @@ public class TimetableController {
     @PostMapping("/saveTeacher")
     public String saveTeacher(@Valid @ModelAttribute("teacher") Teacher theTeacher, BindingResult bindingResult, Model model,
                               @Valid String[] selectClass, @Valid String[] selectSubject,
-                              @RequestParam(value="action") String action) {
+                              @RequestParam(value = "action") String action) {
+
+        List<Integer> selectClassList = new ArrayList<>();
+        List<Integer> selectSubjectList = new ArrayList<>();
+        for (int i = 0; i < selectClass.length; i++) {
+            if (!selectClass[i].equals("") && !selectSubject[i].equals("")) {
+                selectClassList.add(Integer.parseInt(selectClass[i]));
+                selectSubjectList.add(Integer.parseInt(selectSubject[i]));
+            }
+        }
         List<Subject> allSubjects = subjectService.getAllSubjects();
         List<SchoolClass> allSchoolClasses = schoolClassService.getAllSchoolClasses();
 
         if (bindingResult.hasErrors()) {
             theTeacher.getSubjectIntMaps().add(createEmptySubjectIntMap(theTeacher));
-            model.addAttribute("allSchoolClasses", allSchoolClasses);
-            model.addAttribute("allSubjects", allSubjects);
-            model.addAttribute("teacher", theTeacher);
+            setModelAttributes(model, theTeacher);
             return "teacher/add-teacher";
         }
 
         if (action.equals("addRow")) {
-                List<SubjectIntMap> subjectIntMaps = new ArrayList<>();
-                for (int i = 0; i < selectClass.length; i++) {
-                    if (!selectClass[i].equals("") || !(selectSubject[i].equals(""))) {
-                        subjectIntMaps.add(new SubjectIntMap());
-                        subjectIntMaps.get(i).setSubject(allSubjects.get(Integer.parseInt(selectSubject[i])-1));
-                        subjectIntMaps.get(i).getSubject().setSchoolClass(allSchoolClasses.get(Integer.parseInt(selectClass[i])-1));
-                    }
-                }
-                subjectIntMaps.add(createEmptySubjectIntMap(theTeacher));
-                theTeacher.setSubjectIntMaps(subjectIntMaps);
-                model.addAttribute("allSchoolClasses", allSchoolClasses);
-                model.addAttribute("allSubjects", allSubjects);
-                model.addAttribute("teacher", theTeacher);
-                return "teacher/add-teacher";
+            List<SubjectIntMap> subjectIntMaps = new ArrayList<>();
+            for (int i = 0; i < selectClassList.size(); i++) {
+                subjectIntMaps.add(new SubjectIntMap());
+                subjectIntMaps.get(i).setSubject(allSubjects.get(selectSubjectList.get(i) - 1));
+                subjectIntMaps.get(i).getSubject().setSchoolClass(allSchoolClasses.get(selectClassList.get(i) - 1));
             }
+            subjectIntMaps.add(createEmptySubjectIntMap(theTeacher));
+            theTeacher.setSubjectIntMaps(subjectIntMaps);
+            setModelAttributes(model, theTeacher);
+            return "teacher/add-teacher";
+        }
 
-            if (action.startsWith("deleteRow")) {
-                String substring = action.substring(9);
-                int rowIdInt = Integer.parseInt(substring);
-                if ((rowIdInt == 0 && (selectClass.length == 1 || selectSubject.length == 1)) ||
-                        (rowIdInt == 0 && (selectClass.length == 0 || selectSubject.length == 0))) {
-                    theTeacher.getSubjectIntMaps().add(createEmptySubjectIntMap(theTeacher));
-                } else {
-                    for (int i = 0; i < selectClass.length; i++) {
-                        if (i != rowIdInt) {
-                            SubjectIntMap subjectIntMap = createEmptySubjectIntMap(theTeacher);
-                            if (!selectSubject[i].equals("") || !(selectClass[i].equals(""))) {
-                                subjectIntMap.setSubject(allSubjects.get(Integer.parseInt(selectSubject[i]) - 1));
-                                subjectIntMap.getSubject().setSchoolClass(allSchoolClasses.get(Integer.parseInt(selectClass[i])-1));
-                            } else {
-                                subjectIntMap = createEmptySubjectIntMap(theTeacher);
-                            }
-                            theTeacher.getSubjectIntMaps().add(subjectIntMap);
-                        }
+        if (action.startsWith("deleteRow")) {
+            int rowIdInt = Integer.parseInt(action.substring(9));
+            if (rowIdInt == 0 && (selectClassList.size() == 1 || selectClassList.size() == 0)) {
+                theTeacher.getSubjectIntMaps().add(createEmptySubjectIntMap(theTeacher));
+            } else {
+                for (int i = 0; i < selectClassList.size(); i++) {
+                    if (i != rowIdInt) {
+                        SubjectIntMap subjectIntMap = createEmptySubjectIntMap(theTeacher);
+                        subjectIntMap.setSubject(allSubjects.get(selectSubjectList.get(i) - 1));
+                        subjectIntMap.getSubject().setSchoolClass(allSchoolClasses.get(selectClassList.get(i) - 1));
+                        theTeacher.getSubjectIntMaps().add(subjectIntMap);
                     }
                 }
-                model.addAttribute("allSchoolClasses", allSchoolClasses);
-                model.addAttribute("allSubjects", allSubjects);
-                model.addAttribute("teacher", theTeacher);
-                return "teacher/add-teacher";
             }
+            setModelAttributes(model, theTeacher);
+            return "teacher/add-teacher";
+        }
 
         if (action.equals("save")) {
             if (theTeacher.getId() != 0) {
                 teacherService.deleteById(theTeacher.getId());
             }
-            for (int i = 0; i < selectClass.length; i++) {
-                SubjectIntMap subjectIntMap = null;
-                    if (!selectSubject[i].equals("") || !(selectClass[i].equals(""))) {
-                        subjectIntMap = createEmptySubjectIntMap(theTeacher);
-                        subjectIntMap.setSubject(allSubjects.get(Integer.parseInt(selectSubject[i]) - 1));
-                        subjectIntMap.getSubject().setSchoolClass(allSchoolClasses.get(Integer.parseInt(selectClass[i])-1));
-                    }
-                if (subjectIntMap != null) {
-                    theTeacher.getSubjectIntMaps().add(subjectIntMap);
-                }
+            for (int i = 0; i < selectClassList.size(); i++) {
+                SubjectIntMap subjectIntMap = createEmptySubjectIntMap(theTeacher);
+                subjectIntMap.setSubject(allSubjects.get(selectSubjectList.get(i) - 1));
+                subjectIntMap.getSubject().setSchoolClass(allSchoolClasses.get(selectClassList.get(i) - 1));
+                theTeacher.getSubjectIntMaps().add(subjectIntMap);
             }
             teacherService.saveTeacher(theTeacher);
         }
@@ -189,11 +179,7 @@ public class TimetableController {
         if (theTeacher.getSubjectIntMaps().size() == 0) {
             theTeacher.getSubjectIntMaps().add(createEmptySubjectIntMap(theTeacher));
         }
-        List<Subject> allSubjects = subjectService.getAllSubjects();
-        List<SchoolClass> allSchoolClasses = schoolClassService.getAllSchoolClasses();
-        model.addAttribute("allSchoolClasses", allSchoolClasses);
-        model.addAttribute("allSubjects", allSubjects);
-        model.addAttribute("teacher", theTeacher);
+        setModelAttributes(model, theTeacher);
         return "teacher/add-teacher";
     }
 
@@ -213,5 +199,13 @@ public class TimetableController {
         subjectIntMap.setSubject(subject);
         subjectIntMap.setTeacher(theTeacher);
         return subjectIntMap;
+    }
+
+    private void setModelAttributes(Model model, Teacher theTeacher) {
+        List<Subject> allSubjects = subjectService.getAllSubjects();
+        List<SchoolClass> allSchoolClasses = schoolClassService.getAllSchoolClasses();
+        model.addAttribute("allSchoolClasses", allSchoolClasses);
+        model.addAttribute("allSubjects", allSubjects);
+        model.addAttribute("teacher", theTeacher);
     }
 }
