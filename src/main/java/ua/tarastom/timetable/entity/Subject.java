@@ -1,6 +1,7 @@
 package ua.tarastom.timetable.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "subject")
@@ -13,6 +14,7 @@ public class Subject {
     @Column(name = "name_subject")
     private String nameSubject;
 
+    @NotNull(message = "поле не може бути порожнім")
     @ManyToOne(cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "school_class_id")
     private SchoolClass schoolClass;

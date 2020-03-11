@@ -4,6 +4,7 @@ import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ua.tarastom.timetable.entity.SchoolClass;
@@ -18,7 +19,9 @@ import ua.tarastom.timetable.util.TimetableUtils;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/timetable")
@@ -48,7 +51,16 @@ public class TimetableController {
     }
 
     @PostMapping("/saveSubject")
-    public String saveSubject(@ModelAttribute("subject") Subject subject) {
+    public String saveSubject(@ModelAttribute("subject") Subject subject,
+                              BindingResult bindingResult, Model model) {
+        List<SchoolClass> allSchoolClasses = schoolClassService.getAllSchoolClasses();
+        if (subject.getSchoolClass().getNameClass()== null) {
+            bindingResult.addError(new ObjectError("schoolClass", "поле не може бути порожнім"));
+            model.addAttribute("allSchoolClasses", allSchoolClasses);
+            return "subject/add-subject";
+        }
+
+
         subjectService.saveSubject(subject);
         return "redirect:list-subjects";
     }
@@ -132,14 +144,8 @@ public class TimetableController {
         }
 
         if (action.equals("addRow")) {
-            List<SubjectIntMap> subjectIntMaps = new ArrayList<>();
-            for (int i = 0; i < selectClassList.size(); i++) {
-                subjectIntMaps.add(new SubjectIntMap());
-                subjectIntMaps.get(i).setSubject(allSubjects.get(selectSubjectList.get(i) - 1));
-                subjectIntMaps.get(i).getSubject().setSchoolClass(allSchoolClasses.get(selectClassList.get(i) - 1));
-            }
-            subjectIntMaps.add(createEmptySubjectIntMap(theTeacher));
-            theTeacher.setSubjectIntMaps(subjectIntMaps);
+            createListUniqueData(theTeacher, allSubjects, allSchoolClasses, selectClassList, selectSubjectList);
+            theTeacher.getSubjectIntMaps().add(createEmptySubjectIntMap(theTeacher));
             setModelAttributes(model, theTeacher, allSubjects, allSchoolClasses);
             return "teacher/add-teacher";
         }
@@ -166,12 +172,7 @@ public class TimetableController {
             if (theTeacher.getId() != 0) {
                 teacherService.deleteById(theTeacher.getId());
             }
-            for (int i = 0; i < selectClassList.size(); i++) {
-                SubjectIntMap subjectIntMap = createEmptySubjectIntMap(theTeacher);
-                subjectIntMap.setSubject(allSubjects.get(selectSubjectList.get(i) - 1));
-                subjectIntMap.getSubject().setSchoolClass(allSchoolClasses.get(selectClassList.get(i) - 1));
-                theTeacher.getSubjectIntMaps().add(subjectIntMap);
-            }
+            createListUniqueData(theTeacher, allSubjects, allSchoolClasses, selectClassList, selectSubjectList);
             teacherService.saveTeacher(theTeacher);
         }
         return "redirect:list-teachers";
@@ -209,5 +210,19 @@ public class TimetableController {
         model.addAttribute("allSchoolClasses", allSchoolClasses);
         model.addAttribute("allSubjects", allSubjects);
         model.addAttribute("teacher", theTeacher);
+    }
+
+    private void createListUniqueData(@ModelAttribute("teacher") @Valid Teacher theTeacher, List<Subject> allSubjects, List<SchoolClass> allSchoolClasses, List<Integer> selectClassList, List<Integer> selectSubjectList) {
+        Set<SubjectIntMap> subjectIntMapSet = new LinkedHashSet<>();
+        for (int i = 0; i < selectClassList.size(); i++) {
+            SubjectIntMap subjectIntMap = new SubjectIntMap();
+            subjectIntMap.setTeacher(theTeacher);
+            subjectIntMap.setSubject(allSubjects.get(selectSubjectList.get(i) - 1));
+            subjectIntMap.getSubject().setSchoolClass(allSchoolClasses.get(selectClassList.get(i) - 1));
+            subjectIntMapSet.add(subjectIntMap);
+        }
+        List<SubjectIntMap> subjectIntMaps = new ArrayList<>();
+        subjectIntMaps.addAll(subjectIntMapSet);
+        theTeacher.setSubjectIntMaps(subjectIntMaps);
     }
 }

@@ -6,6 +6,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
+    <style>
+        .error {
+            color: red
+        }
+    </style>
+
     <title>Додати (оновити) предмет</title>
 </head>
 <body>
@@ -17,12 +23,13 @@
         <input type="text" th:field="*{nameSubject}" placeholder="Назва предмета" class="form-control mb-4 col-4">
 
         <select th:field="*{schoolClass.nameClass}" class="form-control mb-2 col-4">
-            <option value=""> Виберіть клас</option>-->
+            <option value=""> Виберіть клас</option>
             <option th:each="theSchoolClass : ${allSchoolClasses}"
                     th:value="${theSchoolClass.nameClass}"
                     th:text="${theSchoolClass.nameClass}"
                     th:selected="${theSchoolClass.nameClass==subject.schoolClass.nameClass}"></option>
         </select>
+        <p class="error" th:if="${#fields.hasErrors('schoolClass')}" th:errors="*{schoolClass.nameClass}"></p>
 
         <input type="text" th:field="*{valueHours}" placeholder="Кількість годин на тиждень" class="form-control mb-4 col-4">
 

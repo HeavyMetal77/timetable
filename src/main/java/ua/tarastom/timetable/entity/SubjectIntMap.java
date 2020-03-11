@@ -1,6 +1,7 @@
 package ua.tarastom.timetable.entity;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "subject_int_map")
@@ -77,5 +78,18 @@ public class SubjectIntMap {
     public String toString() {
         return subject.getNameSubject() +
                 ", " + value + " годин";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SubjectIntMap that = (SubjectIntMap) o;
+        return Objects.equals(subject, that.subject);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(subject);
     }
 }

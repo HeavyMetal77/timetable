@@ -1,6 +1,7 @@
 package ua.tarastom.timetable.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -11,6 +12,7 @@ public class SchoolClass {
     @Column(name = "id")
     private int id;
 
+    @NotNull(message = "поле не може бути порожнім")
     @Column(name = "name_class")
     private String nameClass;
 
