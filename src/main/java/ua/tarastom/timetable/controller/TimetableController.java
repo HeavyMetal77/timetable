@@ -109,6 +109,14 @@ public class TimetableController {
     public String saveTeacher(@Valid @ModelAttribute("teacher") Teacher theTeacher, BindingResult bindingResult, Model model,
                               @Valid String[] selectClass, @Valid String[] selectSubject,
                               @RequestParam(value = "action") String action) {
+        List<Subject> allSubjects = subjectService.getAllSubjects();
+        List<SchoolClass> allSchoolClasses = schoolClassService.getAllSchoolClasses();
+
+        if (bindingResult.hasErrors()) {
+            theTeacher.getSubjectIntMaps().add(createEmptySubjectIntMap(theTeacher));
+            setModelAttributes(model, theTeacher, allSubjects, allSchoolClasses);
+            return "teacher/add-teacher";
+        }
 
         List<Integer> selectClassList = new ArrayList<>();
         List<Integer> selectSubjectList = new ArrayList<>();
@@ -121,15 +129,6 @@ public class TimetableController {
             }
         }
 
-        List<Subject> allSubjects = subjectService.getAllSubjects();
-        List<SchoolClass> allSchoolClasses = schoolClassService.getAllSchoolClasses();
-
-        if (bindingResult.hasErrors()) {
-            theTeacher.getSubjectIntMaps().add(createEmptySubjectIntMap(theTeacher));
-            setModelAttributes(model, theTeacher);
-            return "teacher/add-teacher";
-        }
-
         if (action.equals("addRow")) {
             List<SubjectIntMap> subjectIntMaps = new ArrayList<>();
             for (int i = 0; i < selectClassList.size(); i++) {
@@ -139,7 +138,7 @@ public class TimetableController {
             }
             subjectIntMaps.add(createEmptySubjectIntMap(theTeacher));
             theTeacher.setSubjectIntMaps(subjectIntMaps);
-            setModelAttributes(model, theTeacher);
+            setModelAttributes(model, theTeacher, allSubjects, allSchoolClasses);
             return "teacher/add-teacher";
         }
 
@@ -157,7 +156,7 @@ public class TimetableController {
                     }
                 }
             }
-            setModelAttributes(model, theTeacher);
+            setModelAttributes(model, theTeacher, allSubjects, allSchoolClasses);
             return "teacher/add-teacher";
         }
 
@@ -182,7 +181,7 @@ public class TimetableController {
         if (theTeacher.getSubjectIntMaps().size() == 0) {
             theTeacher.getSubjectIntMaps().add(createEmptySubjectIntMap(theTeacher));
         }
-        setModelAttributes(model, theTeacher);
+        setModelAttributes(model, theTeacher, subjectService.getAllSubjects(), schoolClassService.getAllSchoolClasses());
         return "teacher/add-teacher";
     }
 
@@ -204,9 +203,7 @@ public class TimetableController {
         return subjectIntMap;
     }
 
-    private void setModelAttributes(Model model, Teacher theTeacher) {
-        List<Subject> allSubjects = subjectService.getAllSubjects();
-        List<SchoolClass> allSchoolClasses = schoolClassService.getAllSchoolClasses();
+    private void setModelAttributes(Model model, Teacher theTeacher, List<Subject> allSubjects, List<SchoolClass> allSchoolClasses) {
         model.addAttribute("allSchoolClasses", allSchoolClasses);
         model.addAttribute("allSubjects", allSubjects);
         model.addAttribute("teacher", theTeacher);
