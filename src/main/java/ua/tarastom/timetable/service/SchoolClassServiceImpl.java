@@ -5,6 +5,7 @@ import ua.tarastom.timetable.dao.SchoolClassRepository;
 import ua.tarastom.timetable.entity.SchoolClass;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SchoolClassServiceImpl implements SchoolClassService{
@@ -28,5 +29,16 @@ public class SchoolClassServiceImpl implements SchoolClassService{
     @Override
     public void saveSchoolClass(SchoolClass theSchoolClass) {
         schoolClassRepository.save(theSchoolClass);
+    }
+
+    @Override
+    public SchoolClass getSchoolClassById(int id) {
+        Optional<SchoolClass> schoolClassById = schoolClassRepository.findById(id);
+        return schoolClassById.get();
+    }
+
+    @Override
+    public void deleteById(int theId) {
+        schoolClassRepository.deleteById(theId);
     }
 }

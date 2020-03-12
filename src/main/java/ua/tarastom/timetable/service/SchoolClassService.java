@@ -11,4 +11,8 @@ public interface SchoolClassService {
 
     void saveSchoolClass(SchoolClass theSchoolClass);
 
+    SchoolClass getSchoolClassById(int id);
+
+    void deleteById(int theId);
+
 }

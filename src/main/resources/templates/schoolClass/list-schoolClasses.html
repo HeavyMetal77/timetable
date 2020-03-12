@@ -45,11 +45,11 @@
             <td th:text="${tempSchoolClass.nameClass}"></td>
             <td>
                 <!-- Add update button -->
-                <a th:href="@{/timetable/showFormForUpdateSchoolClass(subjectId=${tempSchoolClass.id})}"
+                <a th:href="@{/timetable/showFormForUpdateSchoolClass(schoolClassId=${tempSchoolClass.id})}"
                    class="btn btn-info btn-sm">Оновити дані</a>
 
                 <!-- Add delete button -->
-                <a th:href="@{/timetable/deleteSchoolClass(subjectId=${tempSchoolClass.id})}" class="btn btn-danger btn-sm"
+                <a th:href="@{/timetable/deleteSchoolClass(schoolClassId=${tempSchoolClass.id})}" class="btn btn-danger btn-sm"
                    onclick="if(!(confirm('Ви дійсно бажаєте видалити цей запис?'))) return false">Видалити дані</a>
 
             </td>

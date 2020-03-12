@@ -81,6 +81,12 @@ public class TimetableController {
         return "redirect:list-subjects";
     }
 
+    @GetMapping("/deleteSchoolClass")
+    public String deleteSchoolClass(@RequestParam("schoolClassId") int theId) {
+        schoolClassService.deleteById(theId);
+        return "redirect:list-schoolClasses";
+    }
+
     @RequestMapping("/list-subjects")
     public String listSubjects(Model model) {
         List<Subject> allSubjects = subjectService.getAllSubjects();
@@ -111,9 +117,9 @@ public class TimetableController {
     }
 
     @RequestMapping("/showFormForUpdateSchoolClass")
-    public String showFormForUpdateSchoolClass(Model model) {
-        SchoolClass schoolClass = new SchoolClass();
-        model.addAttribute("schoolClass", schoolClass);
+    public String showFormForUpdateSchoolClass(@RequestParam("schoolClassId") int schoolClassId, Model model) {
+        SchoolClass schoolClassById = schoolClassService.getSchoolClassById(schoolClassId);
+        model.addAttribute("schoolClass", schoolClassById);
         return "schoolClass/add-schoolClass";
     }
 
@@ -158,7 +164,6 @@ public class TimetableController {
         List<Subject> allSubjects = subjectService.getAllSubjects();
         List<SchoolClass> allSchoolClasses = schoolClassService.getAllSchoolClasses();
         //TODO проблема збереження неіснуючого предмета
-        // дубляж назв класів
         if (bindingResult.hasErrors()) {
             theTeacher.getSubjectIntMaps().add(createEmptySubjectIntMap(theTeacher));
             setModelAttributes(model, theTeacher, allSubjects, allSchoolClasses);
