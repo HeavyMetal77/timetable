@@ -37,8 +37,10 @@ DROP TABLE IF EXISTS `school_class`;
 CREATE TABLE `school_class`
 (
     `id`         int(11) NOT NULL AUTO_INCREMENT,
-    `name_class` varchar(45) DEFAULT NULL,
-    PRIMARY KEY (`id`)
+    `name_class` varchar(45) NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `name_class` (`name_class`)
+
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = UTF8;

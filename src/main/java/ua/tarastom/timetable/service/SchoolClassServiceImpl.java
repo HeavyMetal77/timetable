@@ -19,4 +19,14 @@ public class SchoolClassServiceImpl implements SchoolClassService{
     public List<SchoolClass> getAllSchoolClasses() {
         return schoolClassRepository.findAll();
     }
+
+    @Override
+    public long getCountSchoolClasses() {
+        return schoolClassRepository.count();
+    }
+
+    @Override
+    public void saveSchoolClass(SchoolClass theSchoolClass) {
+        schoolClassRepository.save(theSchoolClass);
+    }
 }

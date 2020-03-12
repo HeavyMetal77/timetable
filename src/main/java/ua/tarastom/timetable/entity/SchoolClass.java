@@ -13,7 +13,7 @@ public class SchoolClass {
     private int id;
 
     @NotNull(message = "поле не може бути порожнім")
-    @Column(name = "name_class")
+    @Column(name = "name_class", unique = true)
     private String nameClass;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "schoolClass", cascade = {CascadeType.ALL})

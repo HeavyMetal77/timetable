@@ -2,6 +2,7 @@ package ua.tarastom.timetable.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity
 @Table(name = "subject")
@@ -11,6 +12,7 @@ public class Subject {
     @Column(name = "id")
     private int id;
 
+    @NotNull(message = "поле не може бути порожнім")
     @Column(name = "name_subject")
     private String nameSubject;
 
@@ -47,14 +49,6 @@ public class Subject {
         this.nameSubject = nameSubject;
     }
 
-    @Override
-    public String toString() {
-        return "Subject{" +
-                schoolClass +
-                ", " + nameSubject +
-                '}';
-    }
-
     public int getId() {
         return id;
     }
@@ -69,5 +63,27 @@ public class Subject {
 
     public void setValueHours(int valueHours) {
         this.valueHours = valueHours;
+    }
+
+    @Override
+    public String toString() {
+        return "Subject{" +
+                schoolClass +
+                ", " + nameSubject +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Subject subject = (Subject) o;
+        return Objects.equals(nameSubject, subject.nameSubject) &&
+                Objects.equals(schoolClass, subject.schoolClass);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nameSubject, schoolClass);
     }
 }

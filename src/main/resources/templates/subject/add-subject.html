@@ -23,7 +23,7 @@
         <input type="text" th:field="*{nameSubject}" placeholder="Назва предмета" class="form-control mb-4 col-4">
 
         <select th:field="*{schoolClass.nameClass}" class="form-control mb-2 col-4">
-            <option value=""> Виберіть клас</option>
+            <option value="">Виберіть клас</option>
             <option th:each="theSchoolClass : ${allSchoolClasses}"
                     th:value="${theSchoolClass.nameClass}"
                     th:text="${theSchoolClass.nameClass}"

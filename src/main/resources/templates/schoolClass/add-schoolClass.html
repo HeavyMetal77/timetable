@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <style>
+        .error {
+            color: red
+        }
+    </style>
+
+    <title>Додати (оновити) клас</title>
+</head>
+<body>
+<div class="container">
+    <p class="h4 mb-4">Додати (оновити) клас</p>
+
+    <form action="#" th:action="@{/timetable/saveSchoolClass}" th:object="${schoolClass}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+
+
+        <input type="text" th:field="*{nameClass}" placeholder="Назва класу" class="form-control mb-4 col-4">
+        <p class="error" th:if="${#fields.hasErrors('nameClass')}" th:errors="*{nameClass}"></p>
+
+        <button type="submit" class="btn btn-info col-2">Зберегти</button>
+    </form>
+
+    <hr>
+    <a th:href="@{/timetable/list-schoolClasses}">Повернутись до списку класів</a>
+
+</div>
+</body>
+</html>

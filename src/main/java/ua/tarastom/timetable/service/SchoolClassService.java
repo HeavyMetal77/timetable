@@ -6,4 +6,9 @@ import java.util.List;
 
 public interface SchoolClassService {
     List<SchoolClass> getAllSchoolClasses();
+
+    long getCountSchoolClasses();
+
+    void saveSchoolClass(SchoolClass theSchoolClass);
+
 }
