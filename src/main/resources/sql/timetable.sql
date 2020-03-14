@@ -27,6 +27,7 @@ CREATE TABLE `subject`
     `school_class_id` int(11)     DEFAULT NULL,
     `value_hours`     int(11)     DEFAULT 0,
     PRIMARY KEY (`id`),
+#     UNIQUE  (name_subject, school_class_id),
     FOREIGN KEY (`school_class_id`) REFERENCES `school_class` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
@@ -40,7 +41,6 @@ CREATE TABLE `school_class`
     `name_class` varchar(45) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `name_class` (`name_class`)
-
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 1
   DEFAULT CHARSET = UTF8;

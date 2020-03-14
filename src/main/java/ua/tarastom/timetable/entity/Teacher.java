@@ -123,6 +123,7 @@ public class Teacher {
     }
 
     public void setSubjectIntMaps(List<SubjectIntMap> subjectIntMaps) {
+        subjectIntMaps.forEach(subjectIntMap -> subjectIntMap.setTeacher(this));
         this.subjectIntMaps = subjectIntMaps;
     }
 

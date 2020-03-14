@@ -9,7 +9,7 @@ public interface SubjectService {
 
     Subject findSubjectById(int theId);
 
-    void saveSubject(Subject theSubject);
+    Subject saveSubject(Subject theSubject);
 
     void deleteSubject(Subject theSubject);
 

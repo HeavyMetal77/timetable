@@ -20,5 +20,13 @@ public class SubjectIntMapServiceImpl implements SubjectIntMapService {
         return subjectIntMapRepository.findAll();
     }
 
+    @Override
+    public void save(SubjectIntMap subjectIntMap) {
+                subjectIntMapRepository.save(subjectIntMap);
+    }
 
+    @Override
+    public void delete(SubjectIntMap subjectIntMap) {
+        subjectIntMapRepository.delete(subjectIntMap);
+    }
 }

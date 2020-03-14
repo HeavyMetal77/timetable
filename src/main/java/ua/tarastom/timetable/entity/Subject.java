@@ -78,8 +78,9 @@ public class Subject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Subject subject = (Subject) o;
-        return Objects.equals(nameSubject, subject.nameSubject) &&
-                Objects.equals(schoolClass, subject.schoolClass);
+
+        return subject.getNameSubject().equals(this.getNameSubject())
+                &&subject.getSchoolClass().getNameClass().equals(this.getSchoolClass().getNameClass());
     }
 
     @Override

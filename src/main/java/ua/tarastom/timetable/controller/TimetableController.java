@@ -93,6 +93,7 @@ public class TimetableController {
         model.addAttribute("allSubjects", allSubjects);
         return "subject/list-subjects";
     }
+
     @RequestMapping("/list-schoolClasses")
     public String listSchoolClasses(Model model) {
         List<SchoolClass> allSchoolClasses = schoolClassService.getAllSchoolClasses();
@@ -163,7 +164,8 @@ public class TimetableController {
                               @RequestParam(value = "action") String action) {
         List<Subject> allSubjects = subjectService.getAllSubjects();
         List<SchoolClass> allSchoolClasses = schoolClassService.getAllSchoolClasses();
-        //TODO проблема збереження неіснуючого предмета
+        //TODO  видалення класу -> каскадне видалення предмета....
+        //TODO selectSubject вибір тільки з унікальних імен предметів
         if (bindingResult.hasErrors()) {
             theTeacher.getSubjectIntMaps().add(createEmptySubjectIntMap(theTeacher));
             setModelAttributes(model, theTeacher, allSubjects, allSchoolClasses);
@@ -207,10 +209,16 @@ public class TimetableController {
         }
 
         if (action.equals("save")) {
-            if (theTeacher.getId() != 0) {
-                teacherService.deleteById(theTeacher.getId());
-            }
+            //створення всіх унікальних об'єктів для конкретного вчителя
             createListUniqueData(theTeacher, allSubjects, allSchoolClasses, selectClassList, selectSubjectList);
+
+            //фільтр та видалення SubjectIntMap з таблиці, які більше не належать даному вчителю
+            List<SubjectIntMap> allSubjectIntMaps = subjectIntMapService.getAllSubjectIntMaps();
+            List<SubjectIntMap> subjectIntMapsTheTeacher = theTeacher.getSubjectIntMaps();
+            allSubjectIntMaps.stream()
+                    .filter(allSubjectIntMap -> allSubjectIntMap.getTeacher().getId() == theTeacher.getId() && !subjectIntMapsTheTeacher.contains(allSubjectIntMap))
+                    .forEachOrdered(allSubjectIntMap -> subjectIntMapService.delete(allSubjectIntMap));
+
             teacherService.saveTeacher(theTeacher);
         }
         return "redirect:list-teachers";
@@ -244,10 +252,31 @@ public class TimetableController {
         return subjectIntMap;
     }
 
-    private void setModelAttributes(Model model, Teacher theTeacher, List<Subject> allSubjects,
+    private void setModelAttributes(Model model, Teacher theTeacher, List<Subject> allListSubjects,
                                     List<SchoolClass> allSchoolClasses) {
+//
+//        List<Subject> allUniqueNameSubjects = new ArrayList<>();
+//
+//        List<SubjectIntMap> subjectIntMaps = theTeacher.getSubjectIntMaps();
+//
+//        for (SubjectIntMap subjectIntMap : subjectIntMaps) {
+//            allUniqueNameSubjects.add(subjectIntMap.getSubject());
+//        }
+//        for (Subject subject : allListSubjects) {
+//            boolean uniqueName = true;
+//            for (Subject uniqueNameSubject : allUniqueNameSubjects) {
+//                if (subject.getNameSubject().equals(uniqueNameSubject.getNameSubject())) {
+//                    uniqueName = false;
+//                    break;
+//                }
+//            }
+//            if (uniqueName) {
+//                allUniqueNameSubjects.add(subject);
+//            }
+//        }
+
         model.addAttribute("allSchoolClasses", allSchoolClasses);
-        model.addAttribute("allSubjects", allSubjects);
+        model.addAttribute("allSubjects", allListSubjects);
         model.addAttribute("teacher", theTeacher);
     }
 
@@ -257,12 +286,32 @@ public class TimetableController {
         Set<SubjectIntMap> subjectIntMapSet = new LinkedHashSet<>();
         for (int i = 0; i < selectClassList.size(); i++) {
             SubjectIntMap subjectIntMap = new SubjectIntMap();
-            subjectIntMap.setTeacher(theTeacher);
-            subjectIntMap.setSubject(allSubjects.get(selectSubjectList.get(i) - 1));
-            subjectIntMap.getSubject().setSchoolClass(allSchoolClasses.get(selectClassList.get(i) - 1));
+            String nameSubject = allSubjects.get(selectSubjectList.get(i) - 1).getNameSubject();
+            SchoolClass schoolClass = allSchoolClasses.get(selectClassList.get(i) - 1);
+
+            Subject subject = new Subject();
+            subject.setNameSubject(nameSubject);
+            subject.setSchoolClass(schoolClass);
+
+            if (!allSubjects.contains(subject)) {
+                subject = subjectService.saveSubject(subject);
+            } else {
+                int i1 = allSubjects.indexOf(subject);
+                subject.setId(allSubjects.get(i1).getId());
+            }
+            subjectIntMap.setSubject(subject);
             subjectIntMapSet.add(subjectIntMap);
         }
         List<SubjectIntMap> subjectIntMaps = new ArrayList<>(subjectIntMapSet);
+        List<SubjectIntMap> allSubjectIntMaps = subjectIntMapService.getAllSubjectIntMaps();
+        subjectIntMaps.forEach(subjectIntMap -> {
+            if (!allSubjectIntMaps.contains(subjectIntMap)) {
+                subjectIntMapService.save(subjectIntMap);
+            } else {
+                int i = allSubjectIntMaps.indexOf(subjectIntMap);
+                subjectIntMap.setId(allSubjectIntMaps.get(i).getId());
+            }
+        });
         theTeacher.setSubjectIntMaps(subjectIntMaps);
     }
 }

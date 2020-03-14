@@ -25,6 +25,10 @@ public class SubjectIntMap {
     public SubjectIntMap() {
     }
 
+    public SubjectIntMap(Subject subject) {
+        this.subject = subject;
+    }
+
     public SubjectIntMap(Subject subject, Teacher teacher) {
         this.subject = subject;
         this.teacher = teacher;
@@ -76,7 +80,7 @@ public class SubjectIntMap {
 
     @Override
     public String toString() {
-        return subject.getNameSubject() +
+        return subject.getNameSubject() + " " + subject.getSchoolClass().getNameClass() +
                 ", " + value + " годин";
     }
 
